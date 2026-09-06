@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "deploy": "next build && npx gh-pages -d out --dotfiles -b gh-pages"
   },
   "dependencies": {
     "lucide-react": "^1.41.0",
