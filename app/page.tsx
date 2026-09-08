@@ -300,7 +300,7 @@ export default function MBAHubHomePage() {
     <div className="min-h-screen flex flex-col bg-[#F4F1E9] text-[#211E19]">
       {/* Sticky Executive Top Bar */}
       <header className="tab-header">
-        <div className="wrap header-flex">
+        <div className="wrap flex items-center justify-between min-h-[64px] py-2 gap-3 flex-wrap">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded bg-[#2E5C8A] text-white flex items-center justify-center font-bold text-lg shadow-sm mono">
               MBA

@@ -431,13 +431,14 @@ export default function MacroStudyGuideApp() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F4F1E9] text-[#211E19]">
-      {/* Sticky Tab Header */}
-      <header className="tab-header">
-        <div className="wrap header-flex">
+      {/* Sticky Tab Header with 2-tier clean layout */}
+      <header className="tab-header bg-white border-b border-[#DCD5C4] sticky top-0 z-50 shadow-xs">
+        {/* Tier 1: Brand & Top Utilities */}
+        <div className="wrap flex flex-wrap items-center justify-between py-2.5 border-b border-[#FAF8F2] gap-3">
           <div className="flex items-center gap-3">
             <Link
               href="/"
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded bg-[#FAF8F2] hover:bg-[#EAE5D8] border border-[#C7BFA9] text-[#211E19] transition"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded bg-[#FAF8F2] hover:bg-[#EAE5D8] border border-[#C7BFA9] text-[#211E19] transition"
               title="Return to MBA Domains Portal"
             >
               <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -446,13 +447,13 @@ export default function MacroStudyGuideApp() {
               <span>MBA Domains</span>
             </Link>
 
-            <Link href="/" className="brand hover:opacity-90 transition">
-              <div className="w-9 h-9 rounded bg-[#2E5C8A] text-white flex items-center justify-center font-bold text-base shadow-sm mono">
+            <Link href="/" className="brand hover:opacity-90 transition flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded bg-[#2E5C8A] text-white flex items-center justify-center font-bold text-sm shadow-xs mono">
                 EC
               </div>
               <div className="flex flex-col">
-                <span className="leading-tight">Economics Guide</span>
-                <span className="text-[10px] font-semibold text-[#686254] tracking-wider uppercase">
+                <span className="leading-tight text-lg">Economics Guide</span>
+                <span className="text-[10px] font-semibold text-[#686254] tracking-wider uppercase hidden sm:block">
                   Macroeconomics &amp; Policy Simulation Workbench
                 </span>
               </div>
@@ -462,14 +463,16 @@ export default function MacroStudyGuideApp() {
           <div className="flex items-center gap-2">
             <Link
               href="/macro/l1-0-foundations/"
-              className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider bg-[#E2571C] text-white hover:bg-[#c94a15] transition shadow-xs mono"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider bg-[#E2571C] text-white hover:bg-[#c94a15] transition shadow-xs mono whitespace-nowrap"
             >
               <span>🎮 Play Foundations Arcade</span>
             </Link>
           </div>
+        </div>
 
-          {/* Navigation Tabs */}
-          <nav className="tab-nav">
+        {/* Tier 2: Scrollable Navigation Tabs */}
+        <div className="wrap">
+          <nav className="tab-nav flex items-center gap-1 overflow-x-auto py-1 h-11 scrollbar-none">
             <button
               onClick={() => setActiveTab("intro")}
               className={`nav-tab ${activeTab === "intro" ? "active" : ""}`}

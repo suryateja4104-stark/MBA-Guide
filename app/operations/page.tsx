@@ -22,7 +22,7 @@ export default function OperationsPage() {
     <div className="min-h-screen flex flex-col bg-[#F4F1E9] text-[#211E19]">
       {/* Top Navigation Bar */}
       <header className="tab-header sticky top-0 z-50 bg-[#FFFFFF] border-b border-[#C7BFA9] shadow-xs">
-        <div className="wrap header-flex">
+        <div className="wrap flex items-center justify-between min-h-[64px] py-2 gap-3 flex-wrap">
           <div className="flex items-center gap-3">
             <Link
               href="/"
