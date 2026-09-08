@@ -37,3 +37,7 @@ next-env.d.ts
 
 # scratch
 scratch_ops.html
+
+# agents
+.agents/
+

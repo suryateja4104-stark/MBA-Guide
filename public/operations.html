@@ -1,0 +1,3248 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PrepCom Ops Guide — Operations &amp; Supply Chain Study Guide</title>
+<link rel="icon" type="image/png" href="prepcom_logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-base:#F4F1E9;
+    --bg-panel:#FFFFFF;
+    --bg-panel-2:#FAF8F2;
+    --line:#DCD5C4;
+    --line-strong:#C7BFA9;
+    --blueprint:#2E5C8A;
+    --orange:#E2571C;
+    --rust:#BB3B2E;
+    --green:#3D7A52;
+    --text:#211E19;
+    --text-dim:#686254;
+    --text-faint:#9A927E;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg-base);color:var(--text);font-family:'IBM Plex Sans',sans-serif;scroll-behavior:smooth;}
+  body{-webkit-font-smoothing:antialiased;}
+  .display{font-family:'Big Shoulders Display',sans-serif;text-transform:uppercase;letter-spacing:0.02em;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- STICKY TAB HEADER ---------- */
+  .tab-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg-panel);
+    border-bottom: 1px solid var(--line-strong);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+  }
+  .header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+  }
+  .brand {
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    color: var(--text);
+  }
+  .tab-nav {
+    display: flex;
+    gap: 8px;
+    height: 100%;
+    align-items: center;
+  }
+  .nav-tab {
+    background: none;
+    border: none;
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-dim);
+    padding: 0 16px;
+    cursor: pointer;
+    position: relative;
+    height: 100%;
+    transition: color 0.25s ease;
+    display: flex;
+    align-items: center;
+  }
+  .nav-tab:hover {
+    color: var(--orange);
+  }
+  .nav-tab.active {
+    color: var(--orange);
+  }
+  .nav-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--orange);
+  }
+
+  /* ---------- TAB PANEL TRANSITIONS ---------- */
+  .tab-panel {
+    display: none;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .tab-panel.active {
+    display: block;
+  }
+  .tab-panel.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ---------- EXISTING TIME METRICS LAYOUT ---------- */
+  .workspace {
+    max-width: 1260px;
+    margin: 0 auto;
+    padding: 6px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .dash-header {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    border-bottom: 1px solid var(--line-strong);
+    padding-bottom: 6px;
+  }
+  .dash-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .dash-title-row h2 {
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 900;
+    font-size: 22px;
+    margin: 0;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    color: var(--orange);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .eyebrow .dot {
+    width: 5px;
+    height: 5px;
+    background: var(--orange);
+    border-radius: 50%;
+    animation: dotPulse 1.6s ease-in-out infinite;
+  }
+  @keyframes dotPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(226,87,28,0.35); }
+    50% { box-shadow: 0 0 0 6px rgba(226,87,28,0); }
+  }
+  .dash-card {
+    background: var(--bg-panel);
+    border: 1px solid var(--line-strong);
+    border-radius: 4px;
+    padding: 10px 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.01);
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  .dash-card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+  }
+  .card-title {
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin: 0 0 8px 0;
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 4px;
+  }
+  .dash-top-row {
+    display: grid;
+    grid-template-columns: 0.65fr 0.6fr 1.75fr;
+    gap: 10px;
+  }
+  .control-strip {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    height: 100%;
+  }
+  .control {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+  }
+  .control label {
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .control input[type=range] {
+    -webkit-appearance: none;
+    height: 3px;
+    background: var(--line-strong);
+    border-radius: 1.5px;
+    outline: none;
+  }
+  .control input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--orange);
+    cursor: pointer;
+    border: 1.5px solid var(--bg-panel);
+    box-shadow: 0 0 0 1px var(--orange);
+  }
+  .control .readout {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    color: var(--text);
+    font-weight: 600;
+  }
+  .control .readout span {
+    color: var(--orange);
+  }
+  .pulse-card-new {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .pulse-rail-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 2px;
+  }
+  .pulse-label {
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    color: var(--text-faint);
+    text-transform: uppercase;
+  }
+  .pulse-value {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--orange);
+  }
+  .pulse-value b {
+    font-size: 15px;
+  }
+  svg#pulseSvg {
+    display: block;
+    width: 100%;
+    height: 32px;
+    overflow: visible;
+  }
+  .pulse-line { fill: none; stroke: var(--orange); stroke-width: 1.75; }
+  .pulse-grid { stroke: var(--line); stroke-width: 0.75; }
+  .pulse-car { fill: var(--text); }
+  .takt-status {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    padding: 4px 8px;
+    border-radius: 3px;
+    border: 1px solid var(--line-strong);
+    white-space: nowrap;
+  }
+  .takt-status.ok { color: var(--green); border-color: rgba(61,122,82,0.35); background: rgba(61,122,82,0.08); }
+  .takt-status.bad { color: var(--rust); border-color: rgba(187,59,46,0.35); background: rgba(187,59,46,0.08); }
+
+  .simulator-card {
+    padding: 8px 12px 6px;
+    overflow: hidden;
+  }
+  .line-rail {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    overflow-x: auto;
+    padding: 2px 0;
+  }
+  .station {
+    flex: 1 1 160px;
+    background: var(--bg-panel);
+    border: 1px solid var(--line-strong);
+    border-radius: 4px;
+    padding: 6px 8px 5px !important;
+    position: relative;
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+  .station:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(33,30,25,0.04);
+  }
+  .station.bottleneck { border-color: var(--rust); }
+  .station .st-icon { width: 22px !important; height: 22px !important; color: var(--blueprint); }
+  .station.bottleneck .st-icon { color: var(--rust); }
+  .station .st-name { font-size: 11px !important; font-weight: 600; margin-bottom: 0px; }
+  .station .st-sub { font-size: 8px !important; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.04em; }
+  .station .st-time { font-family: 'IBM Plex Mono', monospace; font-size: 16px !important; color: var(--text); }
+  .station input[type=number] {
+    width: 50px !important;
+    background: var(--bg-panel-2);
+    border: 1px solid var(--line-strong);
+    color: var(--text);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px !important;
+    border-radius: 3px;
+    padding: 1px 3px !important;
+    margin-top: 4px !important;
+  }
+  .station .bar-track { height: 3px !important; background: var(--line); border-radius: 1.5px; margin-top: 6px !important; overflow: hidden; }
+  .station .bar-fill { height: 100%; background: var(--green); transition: width .35s ease; }
+  .station.bottleneck .bar-fill { background: var(--rust); }
+  .station .flag { position: absolute; top: 6px; right: 6px; font-size: 7.5px; color: var(--rust); letter-spacing: 0.04em; font-weight: 600; }
+  
+  .station-img-container {
+    width: 100%;
+    height: 75px !important;
+    border-radius: 2px;
+    margin-bottom: 5px !important;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--line);
+  }
+  .station-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .station:hover .station-img-container img {
+    transform: scale(1.08);
+  }
+
+  .queue-gap {
+    flex: 0.6 0.6 75px;
+    background: var(--bg-panel-2) !important;
+    border-top: 2px solid var(--line-strong) !important;
+    border-bottom: 2px solid var(--line-strong) !important;
+    border-left: 1px solid var(--line) !important;
+    border-right: 1px solid var(--line) !important;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column !important;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 4px !important;
+  }
+  .queue-gap .q-time { font-family: 'IBM Plex Mono', monospace; font-size: 10px !important; color: var(--rust); text-align: center; font-weight: 600; }
+  .queue-gap .q-label { font-size: 7.5px; color: var(--rust); text-transform: uppercase; letter-spacing: 0.04em; opacity: 0.85; }
+  
+  .buffer-belt {
+    display: flex;
+    gap: 4px !important;
+    margin-top: 2px !important;
+    animation: beltMove 2.5s linear infinite;
+    width: 100%;
+    justify-content: center;
+  }
+  @keyframes beltMove {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-16px); }
+  }
+  .buffer-car {
+    width: 10px !important;
+    height: 7px !important;
+    background: var(--rust);
+    border-radius: 2px 2px 0 0;
+    position: relative;
+    opacity: 0.85;
+    flex-shrink: 0;
+  }
+  .buffer-car::after {
+    content: '';
+    position: absolute;
+    bottom: -1.5px !important;
+    left: 1.5px;
+    width: 1.5px;
+    height: 1.5px;
+    background: var(--text);
+    border-radius: 50%;
+    box-shadow: 6px 0 var(--text) !important;
+  }
+  .conveyor {
+    height: 6px;
+    border-radius: 2px;
+    margin: 2px 0 0 0;
+    background-image: repeating-linear-gradient(-45deg, var(--line-strong) 0 6px, transparent 6px 12px);
+    background-size: 18px 100%;
+    animation: conveyorMove 1s linear infinite;
+  }
+  @keyframes conveyorMove { from { background-position-x: 0; } to { background-position-x: -18px; } }
+
+  .dash-bottom-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 10px;
+  }
+  .chart-card { padding: 10px 12px; }
+  .chart-flex-container { display: flex; gap: 12px; align-items: stretch; flex-wrap: wrap; }
+  @keyframes pulseBar {
+    0%, 100% { opacity: 1; fill: var(--rust); }
+    50% { opacity: 0.85; fill: var(--orange); }
+  }
+
+  .flow-wrap { display: flex; flex-direction: column; height: 100%; justify-content: center; }
+  .flow-car-track { position: relative; height: 16px; margin-bottom: 2px; }
+  .flow-car { position: absolute; top: 0; left: 0; width: 18px; height: 18px; color: var(--text); animation: flowDrive linear infinite; }
+  @keyframes flowDrive { from { left: 0%; transform: translateX(0); } to { left: 100%; transform: translateX(-100%); } }
+  .flow-bar { display: flex; width: 100%; height: 40px; border-radius: 4px; overflow: hidden; border: 1px solid var(--line-strong); }
+  .flow-seg { position: relative; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 2px; cursor: default; transition: filter .2s ease; padding: 2px 4px; box-sizing: border-box; overflow: hidden; }
+  .flow-seg:hover { filter: brightness(1.06); }
+  .flow-seg.logistics { background: repeating-linear-gradient(135deg,#B8CBDE 0 10px,#AFC4D9 10px 20px); }
+  .flow-seg.process { background: repeating-linear-gradient(135deg,#6FA87F 0 10px,#5F9970 10px 20px); }
+  .flow-seg.queue { background: repeating-linear-gradient(135deg,#E39C90 0 8px,#D98A7C 8px 16px); }
+  .flow-seg span { font-size: 8px; color: #fff; font-family: 'IBM Plex Mono', monospace; text-shadow: 0 1px 1px rgba(0,0,0,0.25); padding: 0 2px; white-space: nowrap; overflow: hidden; }
+  .flow-milestones { display: flex; width: 100%; margin-top: 4px; }
+  .flow-ms { font-size: 7.5px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.01em; position: relative; padding-top: 4px; text-align: center; word-break: break-word; }
+  .flow-ms::before { content: ''; position: absolute; top: 0; left: 50%; width: 1px; height: 3px; background: var(--line-strong); }
+  .flow-legend { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .flow-legend .lg { display: flex; align-items: center; gap: 4px; font-size: 8.5px; color: var(--text-dim); }
+  .flow-legend .sw { width: 9px; height: 9px; border-radius: 2px; }
+  .flow-legend .sw.logistics { background: #AFC4D9; }
+  .flow-legend .sw.process { background: #5F9970; }
+  .flow-legend .sw.queue { background: #D98A7C; }
+
+  .nest {
+    border: 1.5px solid var(--blueprint);
+    border-radius: 4px;
+    padding: 6px 8px;
+    background: linear-gradient(180deg, rgba(46,92,138,0.05), transparent);
+    height: calc(100% - 24px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .nest-label { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px; flex-wrap: wrap; gap: 4px; }
+  .nest-label .n-name { font-size: 9px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--blueprint); font-weight: 700; }
+  .nest-label .n-time { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--blueprint); font-weight: 600; }
+  .nest .nest.inner1 { border-color: var(--orange); background: linear-gradient(180deg, rgba(226,87,28,0.06), transparent); padding: 5px 6px; margin-top: 2px; }
+  .nest .nest.inner1 .n-name, .nest .nest.inner1 .n-time { color: var(--orange); }
+  .nest .nest.inner2 { border-color: var(--green); background: linear-gradient(180deg, rgba(61,122,82,0.08), transparent); padding: 4px 5px; margin-top: 2px; }
+  .nest .nest.inner2 .n-name, .nest .nest.inner2 .n-time { color: var(--green); }
+
+  .totals-strip { display: flex; gap: 0; border: 1px solid var(--line-strong); border-radius: 4px; overflow: hidden; background: var(--bg-panel); margin-top: 2px; }
+  .total-cell { flex: 1; padding: 6px 12px; border-right: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
+  .total-cell:last-child { border-right: none; }
+  .total-cell .t-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-faint); margin-bottom: 0; }
+  .total-cell .t-val { font-family: 'IBM Plex Mono', monospace; font-size: 14px; font-weight: 600; }
+  .total-cell.processc .t-val { color: var(--green); }
+  .total-cell.queuec .t-val { color: var(--rust); }
+  .total-cell.leadc .t-val { color: var(--blueprint); }
+
+  /* ---------- NEW TAB 2: INTRODUCTION STYLES ---------- */
+  @keyframes rotateGear {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  .transform-gear-anim {
+    transform-origin: center;
+  }
+  .forward-flow-line {
+    animation: flowDashes 1.2s linear infinite;
+  }
+  .feedback-flow-line {
+    animation: flowDashesBack 4s linear infinite;
+  }
+  @keyframes flowDashes {
+    to { stroke-dashoffset: -14; }
+  }
+  @keyframes flowDashesBack {
+    to { stroke-dashoffset: 12; }
+  }
+  .profit-val.positive { color: var(--green) !important; }
+  .profit-val.negative { color: var(--rust) !important; }
+
+  /* ---------- NEW TAB 3: PRODUCTION SYSTEMS STYLES ---------- */
+  .matrix-bubble .bubble-circle {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), fill 0.3s ease, stroke 0.3s ease, stroke-width 0.3s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .matrix-bubble:hover .bubble-circle {
+    transform: scale(1.1);
+    fill: rgba(46, 92, 138, 0.05);
+    stroke: var(--blueprint);
+  }
+  .matrix-bubble.active .bubble-circle {
+    fill: rgba(226, 87, 28, 0.08);
+    stroke: var(--orange);
+    stroke-width: 2.5px;
+  }
+  .diagonal-arrow-flow {
+    animation: flowDashes 2.5s linear infinite;
+  }
+  @keyframes cogRotation1 {
+    from { transform: translate(-5px, -2px) rotate(0deg); }
+    to { transform: translate(-5px, -2px) rotate(360deg); }
+  }
+  @keyframes cogRotation2 {
+    from { transform: translate(5px, 5px) rotate(0deg); }
+    to { transform: translate(5px, 5px) rotate(-360deg); }
+  }
+  .bubble-cog-1 {
+    animation: cogRotation1 6s linear infinite;
+    transform-origin: center;
+  }
+  .bubble-cog-2 {
+    animation: cogRotation2 8s linear infinite;
+    transform-origin: center;
+  }
+  .bubble-icon-anim {
+    animation: craneWobble 4s ease-in-out infinite;
+    transform-origin: -8px 18px;
+  }
+  @keyframes craneWobble {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(4deg); }
+  }
+  .connected-flow-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .flow-node {
+    flex: 1;
+    text-align: center;
+    background: var(--bg-panel);
+    border: 1px solid var(--line-strong);
+    border-radius: 4px;
+    padding: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.01);
+  }
+  .flow-arrow-svg {
+    font-size: 20px;
+    color: var(--line-strong);
+    user-select: none;
+  }
+
+  /* ---------- NEW TAB 4: COMPARISON STYLES ---------- */
+  .comp-card {
+    border: 1.5px solid var(--line-strong);
+    border-radius: 6px;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .comp-card.active {
+    border-color: var(--orange) !important;
+    box-shadow: 0 8px 24px rgba(226,87,28,0.08);
+    transform: translateY(-4px);
+    opacity: 1 !important;
+  }
+  .comp-card.inactive {
+    opacity: 0.55;
+    transform: scale(0.97);
+  }
+  .comp-icon {
+    color: var(--text-dim);
+  }
+  .comp-card.active .comp-icon {
+    color: var(--orange);
+  }
+  @keyframes hammerStrike {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(-35deg); }
+    65% { transform: rotate(5deg); }
+  }
+  .icon-hammer {
+    animation: hammerStrike 1.5s ease-in-out infinite;
+    transform-origin: 22px 22px;
+  }
+  @keyframes traySlide {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(6px); }
+  }
+  .icon-tray {
+    animation: traySlide 2s ease-in-out infinite;
+  }
+  @keyframes armPivot {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(20deg); }
+  }
+  .icon-robot-arm {
+    animation: armPivot 1.8s ease-in-out infinite;
+    transform-origin: 18px 24px;
+  }
+
+  /* ---------- INFO/DESCRIPTIVE PAGE SECTION ---------- */
+  .info-section {
+    background: var(--bg-panel-2);
+    border-top: 1px solid var(--line-strong);
+    padding: 40px 0;
+    margin-top: 32px;
+  }
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+  @media(max-width: 768px) {
+    .info-grid {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+  }
+  .info-hero h2 {
+    font-family: 'Big Shoulders Display', sans-serif;
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 32px;
+    line-height: 1;
+    margin: 0 0 12px;
+  }
+  .info-hero p.lead {
+    color: var(--text-dim);
+    font-size: 14px;
+    line-height: 1.55;
+    margin: 0;
+  }
+  .info-block h3 {
+    font-family: 'Big Shoulders Display', sans-serif;
+    text-transform: uppercase;
+    font-weight: 800;
+    font-size: 18px;
+    margin: 0 0 8px;
+    letter-spacing: 0.04em;
+    color: var(--text);
+  }
+  .info-block p {
+    color: var(--text-dim);
+    font-size: 13px;
+    line-height: 1.55;
+    margin: 0 0 16px;
+  }
+  .info-block p:last-child { margin-bottom: 0; }
+
+  .glossary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px;
+    background: var(--line-strong);
+    border: 1px solid var(--line-strong);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 12px;
+  }
+  .gcard {
+    background: var(--bg-panel);
+    padding: 14px;
+    transition: background .25s ease, transform .25s ease;
+  }
+  .gcard:hover {
+    transform: translateY(-2px);
+    background: var(--bg-panel-2);
+  }
+  .gcard .g-icon { width: 24px; height: 24px; margin-bottom: 8px; color: var(--text); }
+  .gcard .g-name { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  .gcard .g-desc { font-size: 11.5px; color: var(--text-dim); line-height: 1.45; }
+  .gcard.gc-takt .g-icon { color: var(--orange); }
+  .gcard.gc-cycle .g-icon { color: var(--blueprint); }
+  .gcard.gc-process .g-icon { color: var(--green); }
+  .gcard.gc-lead .g-icon { color: var(--text); }
+  .gcard.gc-mfg .g-icon { color: var(--rust); }
+
+  section.block { padding: 40px 0; border-bottom: 1px solid var(--line); }
+  .kicker { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+  .kicker-num { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text-faint); border: 1px solid var(--line-strong); border-radius: 2px; padding: 1px 5px; }
+
+  footer {
+    padding: 24px 0 36px;
+    color: var(--text-faint);
+    font-size: 11px;
+    text-align: center;
+    border-top: 1px solid var(--line);
+    margin-top: 32px;
+  }
+
+  /* Reveal effects for scroll trigger */
+  .reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s cubic-bezier(.16,.8,.3,1), transform .7s cubic-bezier(.16,.8,.3,1); }
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
+  
+  .reveal-stagger .r-item { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .reveal-stagger.in-view .r-item { opacity: 1; transform: translateY(0); }
+  .reveal-stagger.in-view .r-item:nth-child(1) { transition-delay: 0ms; }
+  .reveal-stagger.in-view .r-item:nth-child(3) { transition-delay: 150ms; }
+  .reveal-stagger.in-view .r-item:nth-child(5) { transition-delay: 300ms; }
+  .reveal-stagger.in-view .r-item:nth-child(7) { transition-delay: 450ms; }
+  .reveal-stagger.in-view .r-item:nth-child(9) { transition-delay: 600ms; }
+  /* ---------- TABLET / LANDSCAPE PHONE ---------- */
+  @media (max-width: 900px) {
+    .header-flex {
+      height: auto;
+      flex-direction: column;
+      padding: 10px 16px;
+      gap: 8px;
+      align-items: center;
+    }
+    .tab-nav {
+      width: 100%;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .nav-tab {
+      padding: 6px 12px;
+      font-size: 13.5px;
+      height: 32px;
+    }
+    /* Tab 1 – Controls / EKG / Timeline row */
+    .dash-top-row {
+      grid-template-columns: 1fr !important;
+      gap: 12px;
+    }
+    /* Tab 1 – Bottom grid (Chart + Nesting) */
+    .dash-bottom-grid {
+      grid-template-columns: 1fr !important;
+      gap: 12px;
+    }
+    /* Tab 1 – CVP section two-column */
+    .cvp-grid {
+      grid-template-columns: 1fr !important;
+    }
+    .eoq-grid, .inventory-tab-grid, .inventory-top-grid {
+      grid-template-columns: 1fr !important;
+      gap: 16px !important;
+    }
+    /* Tab 2 – Intro two-column layout */
+    .intro-main-grid {
+      grid-template-columns: 1fr !important;
+    }
+    /* Tab 3 – any inline grid */
+    #production-systems [style*="grid-template-columns"] {
+      grid-template-columns: 1fr !important;
+      gap: 16px !important;
+    }
+    /* Tab 4 – comparison cards */
+    #comparisonCardsGrid {
+      grid-template-columns: 1fr !important;
+      gap: 16px !important;
+    }
+    /* Simulator – scroll horizontally */
+    .simulator-card {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .line-rail {
+      min-width: 600px;
+    }
+    /* Chart flex – stack vertically */
+    .chart-flex-container {
+      flex-direction: column !important;
+    }
+    /* Time nesting – ensure visible padding */
+    .nest {
+      padding: 8px !important;
+    }
+    /* Buffer belt – ensure min visible height */
+    .buffer-belt {
+      min-height: 28px;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      justify-content: flex-start !important;
+    }
+  }
+
+  /* ---------- PORTRAIT MOBILE ---------- */
+  @media (max-width: 600px) {
+    .wrap {
+      padding: 0 10px;
+    }
+    .workspace {
+      padding: 6px 8px;
+    }
+    .brand {
+      font-size: 18px;
+    }
+    .nav-tab {
+      font-size: 12px;
+      padding: 4px 8px;
+    }
+    .dash-title-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+    }
+    .takt-status {
+      align-self: flex-start;
+    }
+    /* Scrollable comparison table */
+    .table-container {
+      overflow-x: auto;
+      width: 100%;
+      -webkit-overflow-scrolling: touch;
+    }
+    /* Time Nesting: make labels readable */
+    .nest-label { flex-direction: column; gap: 2px; }
+    .nest-label .n-name { font-size: 10px; }
+    .nest-label .n-time { font-size: 11px; }
+
+    /* Buffer belt: ensure it doesn't vanish */
+    .buffer-belt {
+      min-height: 32px;
+      overflow-x: auto;
+      flex-wrap: nowrap;
+      justify-content: flex-start !important;
+      animation: none; /* stop belt animation jitter on mobile */
+    }
+    .buffer-car {
+      width: 14px !important;
+      height: 10px !important;
+    }
+
+    /* CVP formula box: font size readable */
+    .cvp-formula-box p {
+      font-size: 12px !important;
+    }
+
+    /* Profitability image: give it a min height */
+    .profitability-img-wrap {
+      height: 160px !important;
+    }
+
+    /* Vehicle journey timeline — large, readable on mobile */
+    .flow-bar { height: 52px !important; border-radius: 4px; }
+    .flow-seg span { font-size: 9px !important; white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis; max-width: 100%; }
+    .flow-ms { font-size: 8px !important; }
+    .timeline-card { min-height: 180px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Sticky Header Navigation -->
+<header class="tab-header">
+  <div class="wrap header-flex">
+    <div class="brand" style="display:flex; align-items:center; gap:12px; flex-shrink:0;">
+      <img src="prepcom_logo.png" style="height:64px; width:auto; border-radius:4px; object-fit:contain; padding:4px 0;" alt="PrepCom Logo">
+      <span style="font-family:'Big Shoulders Display', sans-serif; font-weight:900; font-size:24px; letter-spacing:0.04em; white-space:nowrap;">PrepCom Ops Guide</span>
+    </div>
+    <nav class="tab-nav">
+      <button class="nav-tab active" data-tab="introduction">Introduction</button>
+      <button class="nav-tab" data-tab="time-metrics">Time Metrics</button>
+      <button class="nav-tab" data-tab="production-systems">Production Systems</button>
+      <button class="nav-tab" data-tab="inventory-mgmt">Inventory Management</button>
+      <button class="nav-tab" data-tab="lean-six-sigma">Lean &amp; Six Sigma</button>
+      <button class="nav-tab" data-tab="bullwhip">Bullwhip Effect</button>
+    </nav>
+  </div>
+</header>
+
+<!-- ==================== TAB 1: TIME METRICS ==================== -->
+<div id="time-metrics" class="tab-panel">
+  <div class="workspace">
+    <!-- Header -->
+    <header class="dash-header">
+      <div class="eyebrow"><span class="dot"></span>ASSEMBLY LINE TIME STUDY — AUTOMOTIVE WORKBENCH</div>
+      <div class="dash-title-row">
+        <h2>OPERATIONS DASHBOARD</h2>
+        <div class="takt-status ok" id="taktStatus">LINE MEETS DEMAND</div>
+      </div>
+    </header>
+
+    <!-- Top Row: Controls, EKG, Timeline -->
+    <div class="dash-top-row">
+      <!-- Controls -->
+      <div class="dash-card" style="display: flex; flex-direction: column; justify-content: center; padding: 8px 12px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px 12px;">
+          <div class="control">
+            <label style="font-size: 8.5px;">Available time per shift</label>
+            <div class="readout" style="font-size: 12px;"><span id="availReadout">480</span> min</div>
+            <input type="range" id="availSlider" min="240" max="600" step="10" value="480" style="height: 2px;">
+          </div>
+          <div class="control">
+            <label style="font-size: 8.5px;">Vehicles ordered per shift</label>
+            <div class="readout" style="font-size: 12px;"><span id="demandReadout">500</span> units</div>
+            <input type="range" id="demandSlider" min="150" max="1000" step="10" value="500" style="height: 2px;">
+          </div>
+          <div class="control">
+            <label style="font-size: 8.5px;">Order Processing (Logistics)</label>
+            <div class="readout" style="font-size: 12px;"><span id="orderProcReadout">3.0</span> min</div>
+            <input type="range" id="orderProcSlider" min="0.5" max="10" step="0.5" value="3" style="height: 2px;">
+          </div>
+          <div class="control">
+            <label style="font-size: 8.5px;">Outbound Shipping (Logistics)</label>
+            <div class="readout" style="font-size: 12px;"><span id="shippingReadout">7.0</span> min</div>
+            <input type="range" id="shippingSlider" min="1" max="15" step="0.5" value="7" style="height: 2px;">
+          </div>
+        </div>
+      </div>
+      
+      <!-- EKG -->
+      <div class="dash-card pulse-card-new">
+        <div class="pulse-rail-head">
+          <span class="pulse-label">Sales rate — takt time</span>
+          <span class="pulse-value">one vehicle rolls off the line every <b id="pulseReadout">0.96</b> min</span>
+        </div>
+        <svg id="pulseSvg" viewBox="0 0 1000 100" preserveAspectRatio="none"></svg>
+      </div>
+
+      <!-- Vehicle Journey Timeline (Compact, top-aligned) -->
+      <div class="dash-card timeline-card" style="display: flex; flex-direction: column; justify-content: space-between; padding: 10px 12px;">
+        <div class="pulse-rail-head" style="margin-bottom: 4px;">
+          <span class="pulse-label">Vehicle Journey Timeline</span>
+          <span class="pulse-value" style="font-size: 11px; font-weight: 700; color: var(--orange);">Total: <span id="timelineTotalTime" class="mono">15.08</span> min</span>
+        </div>
+        <div class="flow-wrap" style="margin-top: 2px;">
+          <div class="flow-car-track" style="height: 14px; margin-bottom: 2px; overflow: visible;">
+            <svg class="flow-car" id="flowCar" viewBox="0 0 30 22" fill="currentColor" style="width: 16px; height: 16px;">
+              <path d="M1 14 L3 7 Q5 3 13 3 L20 3 Q26 3 28 7 L29 14 L29 18 L1 18 Z"/>
+              <circle cx="7" cy="18" r="3.4" fill="var(--bg-panel)" stroke="currentColor" stroke-width="1.5"/>
+              <circle cx="23" cy="18" r="3.4" fill="var(--bg-panel)" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div class="flow-bar" id="flowBar"></div>
+          <div class="flow-milestones" id="flowMilestones" style="margin-top: 2px; line-height: 1.2;"></div>
+          <div class="flow-legend" style="margin-top: 5px; display: flex; gap: 10px; font-size: 9px; justify-content: center; flex-wrap: wrap;">
+            <div class="lg" style="display:flex; align-items:center; gap:3px;"><span class="sw logistics" style="width:8px; height:8px;"></span>Logistics</div>
+            <div class="lg" style="display:flex; align-items:center; gap:3px;"><span class="sw process" style="width:8px; height:8px;"></span>Process</div>
+            <div class="lg" style="display:flex; align-items:center; gap:3px;"><span class="sw queue" style="width:8px; height:8px;"></span>Queue</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Middle Row: Conveyor Simulator -->
+    <div class="dash-card simulator-card">
+      <div class="line-rail" id="lineRail"></div>
+      <div class="conveyor"></div>
+    </div>
+
+    <!-- Bottom Grid: Chart (Wide), Nest (Narrow) -->
+    <div class="dash-bottom-grid">
+      <!-- Chart (2fr wide) -->
+      <div class="dash-card chart-card">
+        <div class="chart-flex-container" style="height: 100%;">
+          <div style="flex: 1.8; min-width: 260px;">
+            <h3 class="card-title" style="border:none; margin-bottom: 2px;">Live Capacity &amp; Balance Analysis</h3>
+            <svg id="analysisChart" viewBox="0 0 800 260" style="width: 100%; height: auto; overflow: visible; display: block;"></svg>
+          </div>
+          <div style="flex: 1; min-width: 170px; display: flex; flex-direction: column; gap: 6px; background: var(--bg-panel-2); border: 1px solid var(--line); border-radius: 4px; padding: 10px;" id="chartInsightPanel">
+            <!-- Insights will be generated here in JavaScript -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Nest (1fr wide) -->
+      <div class="dash-card" style="padding-bottom: 16px; display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <h3 class="card-title" style="margin-bottom: 4px;">Time Nesting View</h3>
+          <!-- Blueprint Reference Image banner -->
+          <div style="height: 62px; overflow: hidden; border-radius: 4px; border: 1px solid var(--line); margin-bottom: 8px;">
+            <img src="hero_blueprint.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Car Blueprint Reference">
+          </div>
+        </div>
+        <div class="nest">
+          <div class="nest-label"><span class="n-name">Lead Time</span><span class="n-time" id="leadNestTime">—</span></div>
+          <div class="nest inner1">
+            <div class="nest-label"><span class="n-name">MFG Lead Time</span><span class="n-time" id="mfgNestTime">—</span></div>
+            <div class="nest inner2">
+              <div class="nest-label"><span class="n-name">Process Time</span><span class="n-time" id="processNestTime">—</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Totals strip ribbon in workspace -->
+    <div class="totals-strip" id="totalsStrip"></div>
+  </div>
+
+  <!-- Info Page (Explanatory Text placed below) -->
+  <div class="info-section reveal">
+    <div class="wrap info-grid">
+      <div class="info-hero">
+        <h2>Line Operations Study Guide</h2>
+        <p class="lead">Takt, cycle, process, lead, and manufacturing lead time all measure duration — but on the plant floor each one answers a different question: the customer, the line supervisor, and the plant manager. Confuse them, and either the dealer lot goes empty or the yard fills with unsold inventory.</p>
+      </div>
+
+      <div class="info-block">
+        <h3>Simulation &amp; Flow Dynamics</h3>
+        <p>By adjusting available shift time and dealer orders, you set the line rate (Takt Time). If any station's Cycle Time exceeds the Takt Time, that station is a bottleneck, causing queue build-up. Follow one vehicle (Journey Timeline) to see the accumulation of logistics, active processing, and waste queues.</p>
+        
+        <h3>Time Nesting Hierarchy</h3>
+        <p>Process time, manufacturing lead time, and lead time aren't separate durations — they nest inside one another, each one widening the view to include more waiting, from the weld shop out to the customer's driveway.</p>
+      </div>
+    </div>
+
+    <div class="wrap reveal" style="margin-top: 40px;">
+      <h3 style="font-family:'Big Shoulders Display',sans-serif; text-transform:uppercase; font-size:22px; font-weight:800; margin:0 0 12px 0; color:var(--text);">The Five Definitions, Plainly</h3>
+      <div class="glossary">
+        <div class="gcard gc-takt">
+          <svg class="g-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="13" r="8"/><path d="M12 13 L12 8"/><path d="M9 3 L15 3"/><path d="M12 13 L15.5 10.5"/></svg>
+          <div class="g-name">Takt Time</div>
+          <div class="g-desc">The customer-driven heartbeat of the line. The maximum time allowed to build one vehicle and still meet dealer demand.</div>
+        </div>
+        <div class="gcard gc-cycle">
+          <svg class="g-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="16" r="3"/><path d="M10.1 9.9 L13.9 13.9"/><path d="M8 5 L8 3"/><path d="M16 21 L16 19"/></svg>
+          <div class="g-name">Cycle Time</div>
+          <div class="g-desc">The rate at which a single station actually produces one unit, start to finish.</div>
+        </div>
+        <div class="gcard gc-process">
+          <svg class="g-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3 L6 10 L3 15 L15 15 L12 10 L12 3"/><path d="M4.5 3 L13.5 3"/><path d="M9 15 L9 21"/></svg>
+          <div class="g-name">Process Time</div>
+          <div class="g-desc">Actual work time spent on a vehicle, excluding transport and buffer queues.</div>
+        </div>
+        <div class="gcard gc-lead">
+          <svg class="g-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="6" cy="18" r="2.2"/><circle cx="18" cy="18" r="2.2"/><path d="M3 5 L5 5 L7.5 15.5 L18 15.5"/><path d="M8 9 L17 9 L15.5 15.5"/></svg>
+          <div class="g-name">Lead Time</div>
+          <div class="g-desc">The full elapsed period from order placement to vehicle delivery at the dealership.</div>
+        </div>
+        <div class="gcard gc-mfg">
+          <svg class="g-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 20 L3 10 L8 13 L8 10 L13 13 L13 10 L21 15 L21 20 Z"/><path d="M3 20 L21 20"/></svg>
+          <div class="g-name">Manufacturing Lead Time</div>
+          <div class="g-desc">The subset of lead time spent inside the plant (raw sheet metal to finished vehicle).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== TAB 2: INTRODUCTION ==================== -->
+<div id="introduction" class="tab-panel active fade-in">
+  <div class="workspace">
+    <!-- Header -->
+    <header class="dash-header">
+      <div class="eyebrow"><span class="dot"></span>ECONOMIC RELEVANCE &amp; VALUE TRANSFORMATION</div>
+      <div class="dash-title-row">
+        <h2>Economic Transformation &amp; CVP Study</h2>
+        <div class="takt-status ok" style="color:var(--blueprint); border-color:rgba(46,92,138,0.35); background:rgba(46,92,138,0.08);">CVP PLAYGROUND</div>
+      </div>
+    </header>
+
+    <!-- Top Grid: Interactive Sliders & Real-Time Profit Chart -->
+    <div class="cvp-grid" style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 10px;">
+      <!-- Left: CVP Sliders -->
+      <div class="dash-card" style="padding: 10px 12px; display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <h3 class="card-title" style="margin-bottom: 6px; padding-bottom: 2px;">Live CVP Calculator</h3>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <div class="control">
+              <label>Unit Price ($)</label>
+              <div class="readout" id="cvpPriceVal">$100</div>
+              <input type="range" id="cvpPrice" min="10" max="200" step="1" value="100">
+            </div>
+            
+            <div class="control">
+              <label>Unit Variable Cost ($)</label>
+              <div class="readout" id="cvpVarCostVal">$40</div>
+              <input type="range" id="cvpVarCost" min="5" max="150" step="1" value="40">
+            </div>
+
+            <div class="control">
+              <label>Production Volume (Units)</label>
+              <div class="readout" id="cvpVolumeVal">1,000</div>
+              <input type="range" id="cvpVolume" min="100" max="5000" step="50" value="1000">
+            </div>
+
+            <div class="control">
+              <label>Fixed Costs ($)</label>
+              <div class="readout" id="cvpFixedCostVal">$30,000</div>
+              <input type="range" id="cvpFixedCost" min="5000" max="100000" step="1000" value="30000">
+            </div>
+          </div>
+        </div>
+        <div style="border-top: 1px solid var(--line); padding-top: 8px; margin-top: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-family:'Big Shoulders Display',sans-serif; text-transform:uppercase; font-weight:900; font-size:15px; color:var(--text-dim);">Calculated Profit:</span>
+            <span id="cvpPctDisplay" class="mono" style="font-size: 10px; font-weight: 600; padding: 2px 5px; border-radius: 3px; background: var(--bg-panel-2); border: 1px solid var(--line); color: var(--text-dim); transition: all 0.25s ease;">0% change</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <button id="cvpResetBtn" style="background: none; border: 1px solid var(--line-strong); border-radius: 3px; padding: 2px 8px; font-family: 'Big Shoulders Display', sans-serif; font-size: 11px; font-weight: 800; text-transform: uppercase; cursor: pointer; color: var(--text-dim); transition: all 0.2s ease;" onmouseover="this.style.borderColor='var(--orange)'; this.style.color='var(--orange)'" onmouseout="this.style.borderColor='var(--line-strong)'; this.style.color='var(--text-dim)'">Reset</button>
+            <div id="cvpProfitDisplay" class="mono profit-val positive" style="font-size: 22px; font-weight: 700; color: var(--green);">$30,000</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Real-time Economic Flow Node -->
+      <div class="dash-card" style="padding: 16px 18px; display: flex; flex-direction: column; justify-content: space-between;">
+        <h3 class="card-title" style="margin-bottom: 8px; padding-bottom: 2px;">Economic Transformation Flow</h3>
+        <svg id="profitFlowSvg" viewBox="0 0 400 260" style="width: 100%; display: block; overflow: visible; height: 260px;">
+          <!-- Marketing Node -->
+          <rect x="15" y="10" width="160" height="60" rx="5" fill="var(--bg-panel-2)" stroke="var(--line-strong)" stroke-width="1.5" />
+          <path d="M 27 34 L 37 34 L 41 29 L 41 41 L 37 37 L 27 37 Z" fill="none" stroke="var(--blueprint)" stroke-width="1.5" />
+          <text x="105" y="33" font-family="'Big Shoulders Display', sans-serif" font-weight="900" font-size="16px" text-anchor="middle" fill="var(--text)" letter-spacing="0.04em">MARKETING</text>
+          <text x="105" y="49" font-family="'IBM Plex Sans', sans-serif" font-size="11px" text-anchor="middle" fill="var(--text-faint)">sets the price</text>
+
+          <!-- Operations Node -->
+          <rect x="225" y="10" width="160" height="60" rx="5" fill="var(--bg-panel-2)" stroke="var(--line-strong)" stroke-width="1.5" />
+          <path d="M 237 34 A 3 3 0 0 1 241 38 L 246 43 L 243 46 L 239 41 A 3 3 0 0 1 237 34 Z" fill="none" stroke="var(--green)" stroke-width="1.5" />
+          <text x="315" y="33" font-family="'Big Shoulders Display', sans-serif" font-weight="900" font-size="16px" text-anchor="middle" fill="var(--text)" letter-spacing="0.04em">OPERATIONS</text>
+          <text x="315" y="49" font-family="'IBM Plex Sans', sans-serif" font-size="11px" text-anchor="middle" fill="var(--text-faint)">keeps costs low</text>
+
+          <!-- Lines to CVP Box -->
+          <path d="M 95 70 L 95 110 L 140 110" fill="none" stroke="var(--text-faint)" stroke-width="1.2" stroke-dasharray="3,3" />
+          <path d="M 305 70 L 305 110 L 260 110" fill="none" stroke="var(--text-faint)" stroke-width="1.2" stroke-dasharray="3,3" />
+
+          <!-- CVP Box -->
+          <rect x="140" y="85" width="120" height="50" rx="5" fill="var(--bg-panel)" stroke="var(--orange)" stroke-width="1.75" />
+          <text x="200" y="107" font-family="'Big Shoulders Display', sans-serif" font-weight="900" font-size="14px" text-anchor="middle" fill="var(--orange)" letter-spacing="0.04em">COST-VOLUME</text>
+          <text x="200" y="123" font-family="'Big Shoulders Display', sans-serif" font-weight="900" font-size="14px" text-anchor="middle" fill="var(--orange)" letter-spacing="0.04em">PROFIT (CVP)</text>
+
+          <!-- Line to Profit -->
+          <path d="M 200 135 L 200 175" fill="none" stroke="var(--text-faint)" stroke-width="1.2" stroke-dasharray="3,3" />
+          <polygon points="200,175 196,169 204,169" fill="var(--text-faint)" />
+
+          <!-- Profit Box -->
+          <rect x="100" y="175" width="200" height="70" rx="5" fill="var(--bg-panel-2)" stroke="var(--line-strong)" stroke-width="1.5" />
+          <text x="200" y="198" font-family="'Big Shoulders Display', sans-serif" font-weight="900" font-size="14px" text-anchor="middle" fill="var(--text-dim)" letter-spacing="0.04em">NET PROFIT / LOSS</text>
+          <text x="200" y="230" font-family="'IBM Plex Mono', monospace" font-weight="700" font-size="24px" text-anchor="middle" fill="var(--green)" id="cvpProfitNodeDisplay">$30,000</text>
+        </svg>
+        <!-- Mini helper note -->
+        <div style="font-family:'IBM Plex Sans',sans-serif; font-size:10.5px; color:var(--text-faint); text-align:center; border-top:1px solid var(--line); padding-top:6px; margin-top:4px;">
+          Adjust sliders on the left to see profit output change in real-time.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll-down explanatory section -->
+  <div class="info-section reveal">
+    <div class="wrap info-grid intro-main-grid" style="display: grid; grid-template-columns: 1.45fr 0.55fr; gap: 24px;">
+      <!-- Column 1: What is Operations -->
+      <div>
+        <h2 style="font-family:'Big Shoulders Display',sans-serif; text-transform:uppercase; font-size:26px; margin: 0 0 10px;">What is Operations?</h2>
+        <p style="font-size:13px; line-height:1.55; color:var(--text-dim); margin-bottom:16px;">Operations is the set of activities that transform inputs (land, labor, capital, equipment) into outputs (goods and services) that add value for customers.</p>
+        
+        <!-- Animated transformation SVG flow -->
+        <div class="dash-card" style="padding: 10px; background:var(--bg-panel); border:1px solid var(--line); margin-bottom: 16px;">
+          <h4 class="card-title" style="margin-bottom:6px; font-size:11px;">System Transformation Flow</h4>
+          <svg id="transformationSvg" viewBox="0 0 700 220" style="width: 100%; max-width: 600px; display: block; overflow:visible;">
+            <defs>
+              <marker id="arrow" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--text-dim)" />
+              </marker>
+            </defs>
+            <g stroke="rgba(46,92,138,0.03)" stroke-width="1">
+              <line x1="0" y1="40" x2="700" y2="40" /><line x1="0" y1="80" x2="700" y2="80" />
+              <line x1="0" y1="120" x2="700" y2="120" /><line x1="0" y1="160" x2="700" y2="160" />
+            </g>
+            <!-- Input Node -->
+            <rect x="40" y="40" width="130" height="85" rx="4" fill="var(--bg-panel-2)" stroke="var(--line-strong)" stroke-width="1.2" />
+            <text x="105" y="62" font-family="'Big Shoulders Display', sans-serif" font-weight="900" font-size="14px" text-anchor="middle" fill="var(--text)">INPUTS</text>
+            <text x="55" y="82" font-family="'IBM Plex Sans', sans-serif" font-size="10px" fill="var(--text-dim)">• Land &amp; Labor</text>
+            <text x="55" y="96" font-family="'IBM Plex Sans', sans-serif" font-size="10px" fill="var(--text-dim)">• Capital &amp; Equipment</text>
+            <!-- Transformation Node -->
+            <circle cx="350" cy="82" r="38" fill="var(--bg-panel)" stroke="var(--blueprint)" stroke-width="2" />
+            <g class="transform-gear-anim" transform="translate(350, 82)">
+              <circle cx="0" cy="0" r="22" fill="none" stroke="var(--blueprint)" stroke-width="4.5" stroke-dasharray="11,5" />
+              <circle cx="0" cy="0" r="12" fill="none" stroke="var(--blueprint)" stroke-width="2.5" />
+            </g>
+            <text x="350" y="136" font-family="'Big Shoulders Display', sans-serif" font-weight="900" font-size="13px" text-anchor="middle" fill="var(--blueprint)">TRANSFORMATION</text>
+            <!-- Output Node -->
+            <rect x="530" y="40" width="130" height="85" rx="4" fill="var(--bg-panel-2)" stroke="var(--line-strong)" stroke-width="1.2" />
+            <text x="595" y="62" font-family="'Big Shoulders Display', sans-serif" font-weight="900" font-size="14px" text-anchor="middle" fill="var(--text)">OUTPUTS</text>
+            <text x="595" y="92" font-family="'IBM Plex Sans', sans-serif" font-size="10px" text-anchor="middle" fill="var(--text-dim)">Goods &amp; Services</text>
+            <!-- Forward Flows -->
+            <path d="M 170 82 L 308 82" fill="none" stroke="var(--orange)" stroke-width="2" stroke-dasharray="6,4" class="forward-flow-line" />
+            <polygon points="308,82 301,79 301,85" fill="var(--orange)" />
+            <path d="M 392 82 L 530 82" fill="none" stroke="var(--orange)" stroke-width="2" stroke-dasharray="6,4" class="forward-flow-line" />
+            <polygon points="530,82 523,79 523,85" fill="var(--orange)" />
+            <!-- Feedback Loop -->
+            <path d="M 595 125 C 595 185, 105 185, 105 130" fill="none" stroke="var(--text-dim)" stroke-width="1.2" stroke-dasharray="5,5" class="feedback-flow-line" marker-end="url(#arrow)" />
+            <text x="350" y="196" font-family="'IBM Plex Mono', monospace" font-size="8px" text-anchor="middle" fill="var(--text-dim)">FEEDBACK: OBJECTIVES VS RESULTS</text>
+          </svg>
+        </div>
+        <!-- Transformation Blueprint Reference -->
+        <div class="dash-card" style="padding: 0; overflow: hidden; border: 1px solid var(--line-strong); height: 110px;">
+          <img src="transformation_system.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Transformation Blueprint Illustration">
+        </div>
+      </div>
+
+      <!-- Column 2: Relevance to Profitability -->
+      <div>
+        <h2 style="font-family:'Big Shoulders Display',sans-serif; text-transform:uppercase; font-size:26px; margin: 0 0 10px;">Relevance to Profitability</h2>
+        <p style="font-size:13px; line-height:1.55; color:var(--text-dim); margin-bottom:16px;">Operations directly impacts the bottom line. While Marketing drives demand and sets the price, Operations designs and runs the system that keeps costs low. Together they define profitability.</p>
+        
+        <!-- Profitability relevance static flowchart image -->
+        <div class="dash-card" style="padding: 10px; background:var(--bg-panel); border:1px solid var(--line); margin-bottom:16px;">
+          <h4 class="card-title" style="margin-bottom:6px; font-size:11px;">Profitability Relevance Structure</h4>
+          <div class="profitability-img-wrap" style="height: 140px; border-radius: 4px; overflow: hidden; border: 1px solid var(--line);">
+            <img src="profitability_relevance_flowchart.png" style="width: 100%; height: 100%; object-fit: cover;" alt="CVP Profitability Flowchart Reference">
+          </div>
+        </div>
+        
+        <div class="cvp-formula-box" style="background:var(--bg-panel-2); border:1px solid var(--line-strong); border-radius:4px; padding:12px;">
+          <h4 style="font-family:'Big Shoulders Display',sans-serif; font-size:14px; font-weight:800; margin:0 0 6px 0; text-transform:uppercase;">The CVP Relationship Formula</h4>
+          <p style="font-family:'IBM Plex Mono', monospace; font-size:11.5px; line-height:1.45; color:var(--text-dim); margin:0;">
+            Profit = (Price - Variable Cost) × Volume - Fixed Costs
+          </p>
+          <p style="font-size:11.5px; line-height:1.45; color:var(--text-faint); margin-top:4px;">
+            Operations directly controls both <strong>Variable Costs</strong> (via process efficiency) and <strong>Fixed Costs</strong> (via layout/equipment choices).
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== TAB 3: PRODUCTION SYSTEMS ==================== -->
+<div id="production-systems" class="tab-panel">
+  <!-- Section A -->
+  <section class="block">
+    <div class="wrap">
+      <div class="kicker"><span class="kicker-num">A</span></div>
+      <h2>Product-Process Matrix</h2>
+      <p class="lead">The Product-Process Matrix maps a facility's process choice (Project, Job Shop, Batch, Mass, Continuous) against product volume and variety. Successful operations align their processes along the diagonal matching volume and standardization requirements.</p>
+
+      <div style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; align-items: start;">
+        <!-- Matrix Chart SVG -->
+        <div class="dash-card" style="padding: 16px; background: var(--bg-panel); border: 1px solid var(--line-strong);">
+          <h3 class="card-title" style="margin-bottom: 8px;">Matrix Alignment Map</h3>
+          <svg id="matrixSvg" viewBox="0 0 600 450" style="width:100%; display:block; overflow:visible;">
+            <defs>
+              <marker id="arrow-blue" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--blueprint)" />
+              </marker>
+              <marker id="arrow-green" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--green)" />
+              </marker>
+            </defs>
+            
+            <line x1="50" y1="400" x2="550" y2="400" stroke="var(--text)" stroke-width="2" />
+            <line x1="50" y1="50" x2="50" y2="400" stroke="var(--text)" stroke-width="2" />
+            
+            <text x="300" y="440" font-family="'Big Shoulders Display', sans-serif" font-weight="900" font-size="16px" text-anchor="middle" fill="var(--text)" letter-spacing="0.04em">PRODUCTION VOLUME ➔ (Low to High)</text>
+            <g transform="translate(18, 225) rotate(-90)">
+              <text x="0" y="0" font-family="'Big Shoulders Display', sans-serif" font-weight="900" font-size="16px" text-anchor="middle" fill="var(--text)" letter-spacing="0.04em">PRODUCT VARIETY ➔ (Low to High)</text>
+            </g>
+            
+            <line x1="50" y1="225" x2="550" y2="225" stroke="var(--line)" stroke-dasharray="4,4" />
+            <line x1="300" y1="50" x2="300" y2="400" stroke="var(--line)" stroke-dasharray="4,4" />
+            <line x1="75" y1="75" x2="525" y2="375" stroke="var(--line-strong)" stroke-width="3" stroke-dasharray="6,4" />
+
+            <!-- Diagonal Arrows -->
+            <path d="M 260 145 L 120 50" fill="none" stroke="var(--blueprint)" stroke-width="2" stroke-dasharray="5,4" class="diagonal-arrow-flow" marker-end="url(#arrow-blue)" />
+            <text x="125" y="40" font-family="'IBM Plex Mono', monospace" font-size="9px" font-weight="700" fill="var(--blueprint)" transform="rotate(34, 125, 40)">◀ PROCESS FLEXIBILITY</text>
+
+            <path d="M 320 295 L 460 390" fill="none" stroke="var(--green)" stroke-width="2" stroke-dasharray="5,4" class="diagonal-arrow-flow" marker-end="url(#arrow-green)" />
+            <text x="325" y="310" font-family="'IBM Plex Mono', monospace" font-size="9px" font-weight="700" fill="var(--green)" transform="rotate(34, 325, 310)">STANDARD/VOLUME ▶</text>
+
+            <!-- Zone Bubbles (Clean Text-Only, No Overlapping Icons) -->
+            <g class="matrix-bubble" id="mb-1" transform="translate(100, 100)" cursor="pointer">
+              <circle cx="0" cy="0" r="32" fill="var(--bg-panel-2)" stroke="var(--line-strong)" stroke-width="2" class="bubble-circle" />
+              <text x="0" y="4" font-family="'Big Shoulders Display', sans-serif" font-weight="900" font-size="11.5px" text-anchor="middle" fill="var(--text)" letter-spacing="0.02em">PROJECT</text>
+            </g>
+
+            <g class="matrix-bubble" id="mb-2" transform="translate(200, 165)" cursor="pointer">
+              <circle cx="0" cy="0" r="32" fill="var(--bg-panel-2)" stroke="var(--line-strong)" stroke-width="2" class="bubble-circle" />
+              <text x="0" y="4" font-family="'Big Shoulders Display', sans-serif" font-weight="900" font-size="11.5px" text-anchor="middle" fill="var(--text)" letter-spacing="0.02em">JOB SHOP</text>
+            </g>
+
+            <g class="matrix-bubble" id="mb-3" transform="translate(300, 230)" cursor="pointer">
+              <circle cx="0" cy="0" r="32" fill="var(--bg-panel-2)" stroke="var(--line-strong)" stroke-width="2" class="bubble-circle" />
+              <text x="0" y="4" font-family="'Big Shoulders Display', sans-serif" font-weight="900" font-size="11.5px" text-anchor="middle" fill="var(--text)" letter-spacing="0.02em">BATCH</text>
+            </g>
+
+            <g class="matrix-bubble" id="mb-4" transform="translate(400, 295)" cursor="pointer">
+              <circle cx="0" cy="0" r="32" fill="var(--bg-panel-2)" stroke="var(--line-strong)" stroke-width="2" class="bubble-circle" />
+              <text x="0" y="4" font-family="'Big Shoulders Display', sans-serif" font-weight="900" font-size="11.5px" text-anchor="middle" fill="var(--text)" letter-spacing="0.02em">MASS</text>
+            </g>
+
+            <g class="matrix-bubble" id="mb-5" transform="translate(500, 360)" cursor="pointer">
+              <circle cx="0" cy="0" r="32" fill="var(--bg-panel-2)" stroke="var(--line-strong)" stroke-width="2" class="bubble-circle" />
+              <text x="0" y="4" font-family="'Big Shoulders Display', sans-serif" font-weight="900" font-size="11px" text-anchor="middle" fill="var(--text)">CONTINUOUS</text>
+            </g>
+
+            <!-- Active tracking circle -->
+            <circle cx="300" cy="230" r="33" fill="none" stroke="var(--orange)" stroke-width="2.5" stroke-dasharray="4,2" id="matrixTrackerCircle" style="pointer-events:none; transition: cx 0.4s ease, cy 0.4s ease;" />
+          </svg>
+          
+          <div class="control" style="margin-top: 14px; padding: 0 10px;">
+            <label>Matrix Progression (Project ➔ Continuous)</label>
+            <input type="range" id="matrixSlider" min="1" max="5" step="1" value="3" style="width:100%;">
+          </div>
+        </div>
+
+        <!-- Matrix Detail Card with Matrix Blueprint Chart reference -->
+        <div class="dash-card" style="padding: 20px; background: var(--bg-panel); border: 1px solid var(--line-strong); height: 100%; display: flex; flex-direction: column;" id="matrixDetailCard">
+          <div>
+            <span class="eyebrow" style="margin-bottom: 6px;"><span class="dot"></span>ACTIVE MATCH</span>
+            <h2 id="matrixDetailName" style="font-family:'Big Shoulders Display',sans-serif; text-transform:uppercase; font-weight:900; font-size: 28px; margin: 0 0 12px; color: var(--orange);">BATCH PRODUCTION</h2>
+            <p id="matrixDetailDesc" style="font-size:13.5px; line-height:1.55; color: var(--text-dim); margin-bottom:14px;">Moderate volume of similar products processed in lots. Work flows through disconnected, grouped stations. Mix of general-purpose and specialized machines.</p>
+            <div style="height: 400px; border-radius: 4px; border: 1px solid var(--line); overflow: hidden; margin-top: 12px; margin-bottom: 12px; background: #FFFFFF; display: flex; align-items: center; justify-content: center;">
+              <img id="matrixDetailImage" src="matrix_batch_uploaded.png" style="width: 100%; height: 100%; object-fit: contain;" alt="Active Production System Illustration">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section B -->
+  <section class="block">
+    <div class="wrap">
+      <div class="kicker"><span class="kicker-num">B</span></div>
+      <h2>The 4 Ps of Operations</h2>
+      <p class="lead">Success in operations requires aligning the core pillars of the transformation engine. These five variables are configured sequentially in any operation.</p>
+      
+      <!-- 4 Ps Blueprint Banner Reference -->
+      <div class="dash-card" style="padding: 0; margin-bottom: 16px; border: 1px solid var(--line-strong); height: 110px; overflow:hidden;">
+        <img src="four_ps_blueprint.png" style="width: 100%; height: 100%; object-fit: cover;" alt="4 Ps Framework Layout Blueprint">
+      </div>
+
+      <!-- Staggered Sequential Node Flow -->
+      <div class="reveal-stagger connected-flow-row" id="fourPsFlow" style="display: flex; gap: 10px; align-items: stretch; flex-wrap: wrap;">
+        <div class="flow-node r-item" style="flex: 1; min-width: 180px; background: var(--bg-panel); border: 1px solid var(--line-strong); padding: 18px 14px; border-radius: 4px; display:flex; flex-direction:column; gap:8px;">
+          <div class="node-icon" style="color:var(--blueprint);">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 L2 22 L22 22 Z"/></svg>
+          </div>
+          <h3 style="font-family:'Big Shoulders Display',sans-serif; font-size: 16px; margin: 0; font-weight: 800; text-transform: uppercase;">1. Operations</h3>
+          <p style="font-size: 12px; color: var(--text-dim); line-height: 1.45; margin: 0;">The foundational engine setting overall capacity limits and strategic direction.</p>
+        </div>
+        
+        <div class="flow-arrow-svg" style="display:flex; align-items:center; justify-content:center; color: var(--line-strong);">➔</div>
+
+        <div class="flow-node r-item" style="flex: 1; min-width: 180px; background: var(--bg-panel); border: 1px solid var(--line-strong); padding: 18px 14px; border-radius: 4px; display:flex; flex-direction:column; gap:8px;">
+          <div class="node-icon" style="color:var(--orange);">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6 L12 12 L16 14"/></svg>
+          </div>
+          <h3 style="font-family:'Big Shoulders Display',sans-serif; font-size: 16px; margin: 0; font-weight: 800; text-transform: uppercase;">2. Product</h3>
+          <p style="font-size: 12px; color: var(--text-dim); line-height: 1.45; margin: 0;">Designing the right physical product or service parameters matching market demand.</p>
+        </div>
+
+        <div class="flow-arrow-svg" style="display:flex; align-items:center; justify-content:center; color: var(--line-strong);">➔</div>
+
+        <div class="flow-node r-item" style="flex: 1; min-width: 180px; background: var(--bg-panel); border: 1px solid var(--line-strong); padding: 18px 14px; border-radius: 4px; display:flex; flex-direction:column; gap:8px;">
+          <div class="node-icon" style="color:var(--green);">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3 L9 21 M15 3 L15 21"/></svg>
+          </div>
+          <h3 style="font-family:'Big Shoulders Display',sans-serif; font-size: 16px; margin: 0; font-weight: 800; text-transform: uppercase;">3. Process</h3>
+          <p style="font-size: 12px; color: var(--text-dim); line-height: 1.45; margin: 0;">Applying the right facility layout, routing technology, and machinery types.</p>
+        </div>
+
+        <div class="flow-arrow-svg" style="display:flex; align-items:center; justify-content:center; color: var(--line-strong);">➔</div>
+
+        <div class="flow-node r-item" style="flex: 1; min-width: 180px; background: var(--bg-panel); border: 1px solid var(--line-strong); padding: 18px 14px; border-radius: 4px; display:flex; flex-direction:column; gap:8px;">
+          <div class="node-icon" style="color:var(--blueprint);">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <h3 style="font-family:'Big Shoulders Display',sans-serif; font-size: 16px; margin: 0; font-weight: 800; text-transform: uppercase;">4. Place</h3>
+          <p style="font-size: 12px; color: var(--text-dim); line-height: 1.45; margin: 0;">Establishing optimal location layouts and supply chain physical footprints.</p>
+        </div>
+
+        <div class="flow-arrow-svg" style="display:flex; align-items:center; justify-content:center; color: var(--line-strong);">➔</div>
+
+        <div class="flow-node r-item" style="flex: 1; min-width: 180px; background: var(--bg-panel); border: 1px solid var(--line-strong); padding: 18px 14px; border-radius: 4px; display:flex; flex-direction:column; gap:8px;">
+          <div class="node-icon" style="color:var(--rust);">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M12 4 L12 20 M2 12 H22"/></svg>
+          </div>
+          <h3 style="font-family:'Big Shoulders Display',sans-serif; font-size: 16px; margin: 0; font-weight: 800; text-transform: uppercase;">5. Price</h3>
+          <p style="font-size: 12px; color: var(--text-dim); line-height: 1.45; margin: 0;">Reflecting the low production cost structure back to customers as value.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section C -->
+  <section class="block" style="border-bottom:none;">
+    <div class="wrap">
+      <div class="kicker"><span class="kicker-num">C</span></div>
+      <h2>Production Systems Compared</h2>
+      <p class="lead">Review setup times, machinery flexibility, labor skills, and unit cost profiles across the three primary manufacturing models.</p>
+      
+      <!-- Variety vs Volume matching Slider -->
+      <div class="control-strip" style="margin-bottom: 24px;">
+        <div class="control" style="max-width: 500px; width: 100%;">
+          <label>Volume vs Variety Match Slider</label>
+          <div style="display:flex; justify-content:space-between; font-size:10px; font-family:'IBM Plex Mono',monospace; color:var(--text-faint); margin-bottom:4px;">
+            <span>LOW VOLUME / HIGH VARIETY</span>
+            <span>MID VOLUME / MID VARIETY</span>
+            <span>HIGH VOLUME / LOW VARIETY</span>
+          </div>
+          <input type="range" id="comparisonSlider" min="1" max="3" step="1" value="2" style="width:100%;">
+        </div>
+        <div class="takt-status ok" id="compMatchStatus" style="font-size:11px; padding: 6px 12px;">ACTIVE PROFILE: BATCH</div>
+      </div>
+
+      <!-- Side-by-Side Cards -->
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: stretch;" id="comparisonCardsGrid">
+        
+        <!-- Job Card -->
+        <div class="dash-card comp-card" id="cc-1" style="display:flex; flex-direction:column; gap:12px; border: 1px solid var(--line-strong); padding: 18px; background: var(--bg-panel); transition: all 0.3s ease;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h3 style="font-family:'Big Shoulders Display',sans-serif; font-size:20px; font-weight:900; margin:0; letter-spacing:0.04em;">JOB PRODUCTION</h3>
+            <svg class="comp-icon" viewBox="0 0 36 36" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M 6 28 H 30 L 26 20 H 10 Z" fill="none" />
+              <rect x="14" y="28" width="8" height="5" />
+              <g class="icon-hammer">
+                <line x1="22" y1="22" x2="30" y2="12" stroke="var(--orange)" stroke-width="2.5" />
+                <rect x="20" y="8" width="6" height="10" rx="1" fill="currentColor" stroke="none" />
+              </g>
+            </svg>
+          </div>
+          <!-- Reference craftsman shop image -->
+          <div style="height: 80px; border-radius: 4px; border: 1px solid var(--line); overflow: hidden; margin-bottom: 2px;">
+            <img src="job_craftsman.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Craftsman Blueprint">
+          </div>
+          <p style="font-size:12.5px; color:var(--text-dim); line-height:1.45; margin:0;">Bespoke fabrication tailored exactly to individual project requests.</p>
+          
+          <div style="display:flex; flex-direction:column; gap:8px; border-top:1px solid var(--line); padding-top:10px; font-size:12px;">
+            <div><span style="color:var(--text-faint); text-transform:uppercase; font-size:9.5px;">Setup Time:</span> <b class="mono">Long</b></div>
+            <div><span style="color:var(--text-faint); text-transform:uppercase; font-size:9.5px;">Machinery:</span> <b class="mono">Flexible (General Purpose)</b></div>
+            <div><span style="color:var(--text-faint); text-transform:uppercase; font-size:9.5px;">Labour:</span> <b class="mono">Highly Skilled</b></div>
+            
+            <div style="margin-top:6px;">
+              <span style="color:var(--text-faint); text-transform:uppercase; font-size:9.5px; display:block; margin-bottom:2px;">Cost Per Unit:</span>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <div style="flex:1; height:6px; background:var(--line); border-radius:3px; overflow:hidden;">
+                  <div class="comp-cost-bar" style="width:90%; height:100%; background:var(--rust);"></div>
+                </div>
+                <span class="mono" style="font-size:10px; font-weight:600; color:var(--rust)">HIGH</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Batch Card -->
+        <div class="dash-card comp-card" id="cc-2" style="display:flex; flex-direction:column; gap:12px; border: 1px solid var(--line-strong); padding: 18px; background: var(--bg-panel); transition: all 0.3s ease;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h3 style="font-family:'Big Shoulders Display',sans-serif; font-size:20px; font-weight:900; margin:0; letter-spacing:0.04em;">BATCH PRODUCTION</h3>
+            <svg class="comp-icon" viewBox="0 0 36 36" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8">
+              <g class="icon-tray">
+                <rect x="4" y="10" width="28" height="16" rx="2" />
+                <circle cx="10" cy="18" r="2.5" fill="currentColor" />
+                <circle cx="18" cy="18" r="2.5" fill="currentColor" />
+                <circle cx="26" cy="18" r="2.5" fill="currentColor" />
+              </g>
+            </svg>
+          </div>
+          <!-- Reference batch factory image -->
+          <div style="height: 80px; border-radius: 4px; border: 1px solid var(--line); overflow: hidden; margin-bottom: 2px;">
+            <img src="batch_factory.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Batch Facility Blueprint">
+          </div>
+          <p style="font-size:12.5px; color:var(--text-dim); line-height:1.45; margin:0;">Lots of similar units processed through stages together.</p>
+          
+          <div style="display:flex; flex-direction:column; gap:8px; border-top:1px solid var(--line); padding-top:10px; font-size:12px;">
+            <div><span style="color:var(--text-faint); text-transform:uppercase; font-size:9.5px;">Setup Time:</span> <b class="mono">Fast (Changeover)</b></div>
+            <div><span style="color:var(--text-faint); text-transform:uppercase; font-size:9.5px;">Machinery:</span> <b class="mono">Mixed (General &amp; Special)</b></div>
+            <div><span style="color:var(--text-faint); text-transform:uppercase; font-size:9.5px;">Labour:</span> <b class="mono">Semi-Skilled</b></div>
+            
+            <div style="margin-top:6px;">
+              <span style="color:var(--text-faint); text-transform:uppercase; font-size:9.5px; display:block; margin-bottom:2px;">Cost Per Unit:</span>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <div style="flex:1; height:6px; background:var(--line); border-radius:3px; overflow:hidden;">
+                  <div class="comp-cost-bar" style="width:50%; height:100%; background:var(--orange);"></div>
+                </div>
+                <span class="mono" style="font-size:10px; font-weight:600; color:var(--orange)">MEDIUM</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mass Card -->
+        <div class="dash-card comp-card" id="cc-3" style="display:flex; flex-direction:column; gap:12px; border: 1px solid var(--line-strong); padding: 18px; background: var(--bg-panel); transition: all 0.3s ease;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h3 style="font-family:'Big Shoulders Display',sans-serif; font-size:20px; font-weight:900; margin:0; letter-spacing:0.04em;">MASS PRODUCTION</h3>
+            <svg class="comp-icon" viewBox="0 0 36 36" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8">
+              <rect x="4" y="24" width="28" height="6" rx="3" />
+              <g class="icon-robot-arm">
+                <line x1="18" y1="24" x2="18" y2="12" stroke="currentColor" stroke-width="2.5" />
+                <circle cx="18" cy="12" r="3" fill="var(--orange)" stroke="none" />
+                <line x1="18" y1="12" x2="26" y2="16" stroke="currentColor" stroke-width="2" />
+              </g>
+            </svg>
+          </div>
+          <!-- Reference mass assembly line image -->
+          <div style="height: 80px; border-radius: 4px; border: 1px solid var(--line); overflow: hidden; margin-bottom: 2px;">
+            <img src="mass_assembly.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Assembly Line Blueprint">
+          </div>
+          <p style="font-size:12.5px; color:var(--text-dim); line-height:1.45; margin:0;">Continuous assembly lines producing identical parts in huge volumes.</p>
+          
+          <div style="display:flex; flex-direction:column; gap:8px; border-top:1px solid var(--line); padding-top:10px; font-size:12px;">
+            <div><span style="color:var(--text-faint); text-transform:uppercase; font-size:9.5px;">Setup Time:</span> <b class="mono">Very Long (Dedicated)</b></div>
+            <div><span style="color:var(--text-faint); text-transform:uppercase; font-size:9.5px;">Machinery:</span> <b class="mono">Specialised (Automated)</b></div>
+            <div><span style="color:var(--text-faint); text-transform:uppercase; font-size:9.5px;">Labour:</span> <b class="mono">Low Skilled / Unskilled</b></div>
+            
+            <div style="margin-top:6px;">
+              <span style="color:var(--text-faint); text-transform:uppercase; font-size:9.5px; display:block; margin-bottom:2px;">Cost Per Unit:</span>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <div style="flex:1; height:6px; background:var(--line); border-radius:3px; overflow:hidden;">
+                  <div class="comp-cost-bar" style="width:15%; height:100%; background:var(--green);"></div>
+                </div>
+                <span class="mono" style="font-size:10px; font-weight:600; color:var(--green)">LOW</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Comparison Table / Trade-off Matrix -->
+      <div style="margin-top: 32px;" class="reveal">
+        <h3 style="font-family:'Big Shoulders Display',sans-serif; text-transform:uppercase; font-size:22px; margin: 0 0 16px; letter-spacing:0.04em;">Operations Trade-off Matrix</h3>
+        <div class="dash-card" style="padding: 0; overflow: hidden; border: 1px solid var(--line-strong); background: var(--bg-panel);">
+          <div class="table-container">
+            <table style="width: 100%; min-width: 600px; border-collapse: collapse; text-align: left; font-size: 13px;">
+              <thead>
+                <tr style="background: var(--bg-panel-2); border-bottom: 1px solid var(--line-strong); font-family:'Big Shoulders Display',sans-serif; font-size: 14px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim);">
+                  <th style="padding: 12px 16px;">Metric / Attribute</th>
+                  <th style="padding: 12px 16px; color: var(--blueprint);">Job Shop</th>
+                  <th style="padding: 12px 16px; color: var(--orange);">Batch Production</th>
+                  <th style="padding: 12px 16px; color: var(--green);">Mass Production</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom: 1px solid var(--line);">
+                  <td style="padding: 10px 16px; font-weight: 600; color: var(--text);">Volume & Variety</td>
+                  <td style="padding: 10px 16px; color: var(--text-dim);">Very Low Volume, High Variety</td>
+                  <td style="padding: 10px 16px; color: var(--text-dim);">Medium Volume, Medium Variety</td>
+                  <td style="padding: 10px 16px; color: var(--text-dim);">High Volume, Very Low Variety</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--line); background: rgba(255,255,255,0.01);">
+                  <td style="padding: 10px 16px; font-weight: 600; color: var(--text);">Lead Time (Throughput)</td>
+                  <td style="padding: 10px 16px; color: var(--text-dim);">Long & Variable (High Queues)</td>
+                  <td style="padding: 10px 16px; color: var(--text-dim);">Moderate (Batch waiting times)</td>
+                  <td style="padding: 10px 16px; color: var(--text-dim);">Short & Standardized (Continuous flow)</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--line);">
+                  <td style="padding: 10px 16px; font-weight: 600; color: var(--text);">WIP Inventory Level</td>
+                  <td style="padding: 10px 16px; color: var(--text-dim);">High (Buffer piles between functions)</td>
+                  <td style="padding: 10px 16px; color: var(--text-dim);">High (Lots waiting for changeovers)</td>
+                  <td style="padding: 10px 16px; color: var(--text-dim);">Low (Balanced line flow)</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--line); background: rgba(255,255,255,0.01);">
+                  <td style="padding: 10px 16px; font-weight: 600; color: var(--text);">Equipment Type</td>
+                  <td style="padding: 10px 16px; color: var(--text-dim);">General Purpose (Lathes, CNC, etc.)</td>
+                  <td style="padding: 10px 16px; color: var(--text-dim);">Mixed (Semi-specialized fixtures)</td>
+                  <td style="padding: 10px 16px; color: var(--text-dim);">Special Purpose (Robots, Transfer lines)</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--line);">
+                  <td style="padding: 10px 16px; font-weight: 600; color: var(--text);">Labor Skill & Flexibility</td>
+                  <td style="padding: 10px 16px; color: var(--text-dim);">High Skill, High Job Scope</td>
+                  <td style="padding: 10px 16px; color: var(--text-dim);">Moderate Skill, Mixed Scope</td>
+                  <td style="padding: 10px 16px; color: var(--text-dim);">Low Skill, Focused Tasks</td>
+                </tr>
+                <tr style="background: rgba(255,255,255,0.01);">
+                  <td style="padding: 10px 16px; font-weight: 600; color: var(--text);">Capital Intensity</td>
+                  <td style="padding: 10px 16px; color: var(--text-dim);">Low initial investment (machines)</td>
+                  <td style="padding: 10px 16px; color: var(--text-dim);">Moderate initial investment</td>
+                  <td style="padding: 10px 16px; color: var(--text-dim);">High initial investment (assembly line)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<!-- ==================== TAB 5: INVENTORY MANAGEMENT ==================== -->
+<div id="inventory-mgmt" class="tab-panel">
+  <div class="workspace">
+    <!-- Header -->
+    <header class="dash-header" style="margin-bottom: 12px;">
+      <div class="eyebrow"><span class="dot"></span>INVENTORY CONTROLS, COSTS &amp; CLASSIFICATION</div>
+      <div class="dash-title-row">
+        <h2>Inventory Management Study</h2>
+        <div class="takt-status ok" style="color:var(--green); border-color:rgba(61,122,82,0.35); background:rgba(61,122,82,0.08);">OPTIMAL CONTROLS</div>
+      </div>
+    </header>
+
+    <!-- Row 1: Core Concepts, Financials & Controls (3-column layout) -->
+    <div class="inventory-top-grid" style="display:grid; grid-template-columns:1fr 1fr 1.15fr; gap:16px; margin-bottom:16px;">
+      
+      <!-- Card 1: Core Concepts (Definition & Types) -->
+      <div class="dash-card" style="padding:14px;">
+        <h3 class="card-title" style="margin-bottom:8px; border-bottom:1px solid var(--line); padding-bottom:4px; color:var(--orange);">1. Inventory Core &amp; Types</h3>
+        <p style="font-size:12px; color:var(--text-dim); margin-bottom:10px; line-height:1.4;">
+          <strong>Inventory</strong> is material held to decouple workstations, buffer against demand/supply variations, and leverage bulk purchasing.
+        </p>
+        <div class="table-container" style="margin-bottom:10px;">
+          <table style="width:100%; border-collapse:collapse; font-size:11px;">
+            <thead>
+              <tr style="background:var(--bg-panel-2); border-bottom:1px solid var(--line-strong); font-family:'Big Shoulders Display',sans-serif; text-transform:uppercase; color:var(--text-dim);">
+                <th style="padding:4px 6px; text-align:left; color:var(--blueprint);">Input</th>
+                <th style="padding:4px 6px; text-align:left; color:var(--orange);">Process (WIP)</th>
+                <th style="padding:4px 6px; text-align:left; color:var(--green);">Output</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--line);">
+                <td style="padding:4px 6px; font-weight:600;">Raw Materials</td>
+                <td style="padding:4px 6px; font-weight:600;">Work in Process</td>
+                <td style="padding:4px 6px; font-weight:600;">Finished Goods</td>
+              </tr>
+              <tr>
+                <td style="padding:4px 6px; color:var(--text-dim); line-height:1.3;">Consumables, parts, or fuel.</td>
+                <td style="padding:4px 6px; color:var(--text-dim); line-height:1.3;">Semi-finished items on lines.</td>
+                <td style="padding:4px 6px; color:var(--text-dim); line-height:1.3;">Completed stock ready for sale.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <ul style="margin:0; padding-left:14px; font-size:11.5px; color:var(--text-dim); display:flex; flex-direction:column; gap:4px;">
+          <li><strong>Demand buffer:</strong> Protects against customer spikes.</li>
+          <li><strong>Supply buffer:</strong> Insulates from supplier delays.</li>
+        </ul>
+      </div>
+
+      <!-- Card 2: Financial Implications (Savings vs Costs) -->
+      <div class="dash-card" style="padding:14px;">
+        <h3 class="card-title" style="margin-bottom:8px; border-bottom:1px solid var(--line); padding-bottom:4px; color:var(--orange);">2. Financial Implications</h3>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div>
+            <div style="font-size:11px; font-weight:700; color:var(--green); margin-bottom:4px; text-transform:uppercase;">💰 Savings</div>
+            <ul style="margin:0; padding-left:12px; font-size:11px; color:var(--text-dim); display:flex; flex-direction:column; gap:3px;">
+              <li>Avoids shortage &amp; opportunity costs.</li>
+              <li>Secures bulk discounts.</li>
+              <li>Reduces ordering frequency.</li>
+            </ul>
+          </div>
+          <div>
+            <div style="font-size:11px; font-weight:700; color:var(--rust); margin-bottom:4px; text-transform:uppercase;">⚠️ Costs</div>
+            <ul style="margin:0; padding-left:12px; font-size:11px; color:var(--text-dim); display:flex; flex-direction:column; gap:3px;">
+              <li>Storage &amp; warehousing.</li>
+              <li>Obsolescence / Spoilage.</li>
+              <li>Tied up capital.</li>
+            </ul>
+          </div>
+        </div>
+        <div style="font-size:10.5px; color:var(--text-faint); margin-top:12px; border-top:1px solid var(--line); padding-top:6px; line-height:1.3;">
+          ℹ️ Balance is key: overstocking raises holding costs; understocking risks lost sales.
+        </div>
+      </div>
+
+      <!-- Card 3: Inventory Control Systems -->
+      <div class="dash-card" style="padding:14px;">
+        <h3 class="card-title" style="margin-bottom:8px; border-bottom:1px solid var(--line); padding-bottom:4px; color:var(--orange);">3. Control Systems (q vs p)</h3>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:6px;">
+          <div>
+            <div style="font-size:11px; font-weight:700; color:var(--blueprint); margin-bottom:2px;">q-System (Continuous)</div>
+            <p style="font-size:10.5px; color:var(--text-dim); margin:0; line-height:1.3;">
+              Order fixed quantity (<strong>EOQ</strong>) when stock hits Reorder Point (<strong>ROP</strong>).
+            </p>
+          </div>
+          <div>
+            <div style="font-size:11px; font-weight:700; color:var(--orange); margin-bottom:2px;">p-System (Periodic)</div>
+            <p style="font-size:10.5px; color:var(--text-dim); margin:0; line-height:1.3;">
+              Order up to level (<strong>OUL</strong>) at fixed intervals (weekly/monthly).
+            </p>
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+          <svg viewBox="0 0 280 80" style="width:100%; display:block; background:var(--bg-panel-2); border-radius:4px; padding:4px;">
+            <line x1="20" y1="65" x2="260" y2="65" stroke="var(--line-strong)" stroke-width="1"/>
+            <line x1="20" y1="5" x2="20" y2="65" stroke="var(--line-strong)" stroke-width="1"/>
+            <polyline points="20,15 80,15 80,55 130,55 130,15 190,15 190,55 240,55 240,15" fill="none" stroke="var(--blueprint)" stroke-width="1.5"/>
+            <line x1="20" y1="56" x2="260" y2="56" stroke="var(--rust)" stroke-width="0.8" stroke-dasharray="3,2"/>
+            <text x="262" y="59" font-size="7" fill="var(--rust)" font-family="monospace">ROP</text>
+          </svg>
+          <svg viewBox="0 0 280 80" style="width:100%; display:block; background:var(--bg-panel-2); border-radius:4px; padding:4px;">
+            <line x1="20" y1="65" x2="260" y2="65" stroke="var(--line-strong)" stroke-width="1"/>
+            <line x1="20" y1="5" x2="20" y2="65" stroke="var(--line-strong)" stroke-width="1"/>
+            <polyline points="20,18 80,48 80,18 160,48 160,18 240,48" fill="none" stroke="var(--orange)" stroke-width="1.5"/>
+            <line x1="80" y1="5" x2="80" y2="65" stroke="var(--line)" stroke-width="0.8" stroke-dasharray="2,2"/>
+            <line x1="160" y1="5" x2="160" y2="65" stroke="var(--line)" stroke-width="0.8" stroke-dasharray="2,2"/>
+            <line x1="20" y1="18" x2="260" y2="18" stroke="var(--green)" stroke-width="0.8" stroke-dasharray="3,2"/>
+            <text x="262" y="21" font-size="7" fill="var(--green)" font-family="monospace">OUL</text>
+          </svg>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Row 2: Economic Order Quantity (EOQ) Simulator (Full Width section with columns inside) -->
+    <section class="block" style="border-top:1px solid var(--line); padding-top:16px; margin-bottom:16px;">
+      <div class="kicker"><span class="kicker-num">4</span></div>
+      <h2>4. Economic Order Quantity (EOQ) Simulator</h2>
+      <p class="lead">The order quantity that minimises total costs of ordering, receiving, and holding inventory.</p>
+      
+      <div class="inventory-tab-grid" style="display:grid; grid-template-columns:1fr 1.25fr; gap:20px; align-items:start; margin-top:12px;">
+        
+        <!-- Left Column: Controls -->
+        <div class="dash-card" style="padding:16px; display:flex; flex-direction:column; gap:14px;">
+          <div style="display:grid; grid-template-columns:1.2fr 1fr; gap:10px; align-items:center; background:rgba(226,87,28,0.03); border:1px solid var(--orange); border-radius:4px; padding:8px 12px;">
+            <div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:15px; font-weight:700; color:var(--orange);">EOQ = √( 2DS / H )</div>
+              <div style="font-size:9.5px; color:var(--text-faint); margin-top:2px;">Balances Ordering (S) vs Holding (H) costs</div>
+            </div>
+            <div style="text-align:right;">
+              <span style="font-size:10px; color:var(--text-dim); text-transform:uppercase; display:block;">Optimal Order</span>
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:20px; font-weight:700; color:var(--orange);" id="eoqCalcDisplay">331</span>
+            </div>
+          </div>
+
+          <!-- Presets -->
+          <div>
+            <div style="display:flex; gap:6px; align-items:center;">
+              <span style="font-family:'Big Shoulders Display',sans-serif; text-transform:uppercase; font-weight:900; font-size:11px; color:var(--text-dim);">Business Context:</span>
+              <button id="eoqPresetCoffee" class="nav-tab active" style="height:26px; font-size:11px; padding:0 10px; border:1px solid var(--orange); border-radius:3px; background:rgba(226,87,28,0.06); cursor:pointer;">☕ Coffee</button>
+              <button id="eoqPresetBeer" class="nav-tab" style="height:26px; font-size:11px; padding:0 10px; border:1px solid var(--line-strong); border-radius:3px; background:none; cursor:pointer;">🍺 Beer</button>
+            </div>
+            <div id="eoqContextNote" style="font-size:11.5px; color:var(--orange); margin-top:6px; font-style:italic; border-left:2px solid var(--orange); padding-left:6px; line-height:1.35;">
+              Coffee has short shelf life and quality decay, so holding costs are relatively high — favors smaller, more frequent orders.
+            </div>
+          </div>
+
+          <!-- Sliders -->
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <div class="control" style="grid-template-columns:1.8fr 1fr; margin-bottom:2px;">
+              <label style="font-size:11.5px;">Annual Demand (D) — Units/Yr</label>
+              <div class="readout" style="font-size:11.5px;"><span id="eoqDemandReadout">24,000</span></div>
+              <input type="range" id="eoqDemand" min="1000" max="100000" step="1000" value="24000" style="grid-column:span 2; height:2px;">
+            </div>
+            <div class="control" style="grid-template-columns:1.8fr 1fr; margin-bottom:2px;">
+              <label style="font-size:11.5px;">Ordering Cost (S) — Per Order</label>
+              <div class="readout" style="font-size:11.5px;">₹<span id="eoqOrderCostReadout">800</span></div>
+              <input type="range" id="eoqOrderCost" min="100" max="5000" step="50" value="800" style="grid-column:span 2; height:2px;">
+            </div>
+            <div class="control" style="grid-template-columns:1.8fr 1fr; margin-bottom:2px;">
+              <label style="font-size:11.5px;">Holding Cost (H) — Per Unit/Yr</label>
+              <div class="readout" style="font-size:11.5px;">₹<span id="eoqHoldingCostReadout">350</span></div>
+              <input type="range" id="eoqHoldingCost" min="50" max="1000" step="10" value="350" style="grid-column:span 2; height:2px;">
+            </div>
+            <div class="control" style="grid-template-columns:1.8fr 1fr; margin-bottom:2px; position:relative;">
+              <label style="font-size:11.5px; color:var(--orange);">Order Quantity (Q)</label>
+              <button id="eoqResetQBtn" style="position:absolute; right:0; top:-1px; background:none; border:1px solid var(--orange); border-radius:2px; padding:0 6px; font-family:'Big Shoulders Display',sans-serif; font-size:9px; font-weight:800; text-transform:uppercase; cursor:pointer; color:var(--orange);">Reset to EOQ</button>
+              <div class="readout" style="font-size:11.5px; color:var(--orange); font-weight:700;"><span id="eoqQtyReadout">331</span> units</div>
+              <input type="range" id="eoqQty" min="50" max="2000" step="10" value="331" style="grid-column:span 2; height:2px;">
+            </div>
+          </div>
+
+          <!-- Total Cost Display -->
+          <div style="background:var(--bg-panel-2); border-radius:4px; padding:8px; text-align:center;">
+            <div style="font-size:10px; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.04em;">Total Cost at selected Q</div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:18px; font-weight:700; color:var(--green); margin-top:2px;">₹<span id="eoqCostDisplay">115,920</span></div>
+          </div>
+        </div>
+
+        <!-- Right Column: Big SVG Cost Curve Chart -->
+        <div class="dash-card" style="padding:16px; display:flex; flex-direction:column; height:100%; justify-content:space-between;">
+          <h3 class="card-title" style="margin-bottom:8px; border-bottom:1px solid var(--line); padding-bottom:4px;">Cost Curves &amp; Tradeoff Visualisation</h3>
+          <div style="display:block; width:100%;">
+            <svg id="eoqChart" viewBox="0 0 380 260" style="width:100%; height:320px; display:block; overflow:visible;"></svg>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Bottom Row (Full Width): ABC Inventory Management -->
+    <section class="block" style="border-top:1px solid var(--line); padding-top:20px;">
+      <div class="kicker"><span class="kicker-num">5</span></div>
+      <h2>ABC Inventory Management (Pareto Classification)</h2>
+      <p class="lead">Classification of items based on their annual rupee value usage to optimize monitoring efforts.</p>
+      
+      <div style="display:grid; grid-template-columns:1.25fr 1fr; gap:20px; align-items:start;" class="reveal">
+        
+        <!-- Left: ABC Classification Table -->
+        <div class="dash-card" style="padding:14px;">
+          <h3 class="card-title" style="margin-bottom:10px;">Mobile Phone BOM — Annual Demand: 100,000 Units</h3>
+          <div class="table-container">
+            <table style="width:100%; border-collapse:collapse; font-size:11.5px;">
+              <thead>
+                <tr style="background:var(--bg-panel-2); border-bottom:1px solid var(--line-strong); font-family:'Big Shoulders Display',sans-serif; text-transform:uppercase; color:var(--text-dim);">
+                  <th style="padding:6px; text-align:left;">Item</th>
+                  <th style="padding:6px; text-align:right;">Qty/Phone</th>
+                  <th style="padding:6px; text-align:right;">Cost (₹)</th>
+                  <th style="padding:6px; text-align:right;">Annual Vol (₹)</th>
+                  <th style="padding:6px; text-align:right; color:var(--orange);">% of Total Value</th>
+                  <th style="padding:6px; text-align:center;">Class</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom:1px solid var(--line); background:rgba(226,87,28,0.03);">
+                  <td style="padding:6px; font-weight:600;">📱 Screen</td>
+                  <td style="padding:6px; text-align:right; color:var(--text-dim);">1</td>
+                  <td style="padding:6px; text-align:right; color:var(--text-dim);">4,000</td>
+                  <td style="padding:6px; text-align:right; font-weight:700; color:var(--orange);">₹40 Cr</td>
+                  <td style="padding:6px; text-align:right; font-weight:700; color:var(--orange);">32.1%</td>
+                  <td style="padding:6px; text-align:center;"><span style="background:rgba(226,87,28,0.12); color:var(--orange); font-weight:900; font-family:'Big Shoulders Display',sans-serif; font-size:12px; border-radius:3px; padding:1px 6px;">A</span></td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line); background:rgba(226,87,28,0.03);">
+                  <td style="padding:6px; font-weight:600;">⚙️ Motherboard</td>
+                  <td style="padding:6px; text-align:right; color:var(--text-dim);">1</td>
+                  <td style="padding:6px; text-align:right; color:var(--text-dim);">3,500</td>
+                  <td style="padding:6px; text-align:right; font-weight:700; color:var(--orange);">₹35 Cr</td>
+                  <td style="padding:6px; text-align:right; font-weight:700; color:var(--orange);">28.1%</td>
+                  <td style="padding:6px; text-align:center;"><span style="background:rgba(226,87,28,0.12); color:var(--orange); font-weight:900; font-family:'Big Shoulders Display',sans-serif; font-size:12px; border-radius:3px; padding:1px 6px;">A</span></td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line); background:rgba(46,92,138,0.03);">
+                  <td style="padding:6px; font-weight:600;">📷 Camera</td>
+                  <td style="padding:6px; text-align:right; color:var(--text-dim);">4</td>
+                  <td style="padding:6px; text-align:right; color:var(--text-dim);">500</td>
+                  <td style="padding:6px; text-align:right; font-weight:700; color:var(--blueprint);">₹20 Cr</td>
+                  <td style="padding:6px; text-align:right; font-weight:700; color:var(--blueprint);">16.1%</td>
+                  <td style="padding:6px; text-align:center;"><span style="background:rgba(46,92,138,0.12); color:var(--blueprint); font-weight:900; font-family:'Big Shoulders Display',sans-serif; font-size:12px; border-radius:3px; padding:1px 6px;">B</span></td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line); background:rgba(46,92,138,0.03);">
+                  <td style="padding:6px; font-weight:600;">🔌 Body Case</td>
+                  <td style="padding:6px; text-align:right; color:var(--text-dim);">1</td>
+                  <td style="padding:6px; text-align:right; color:var(--text-dim);">1,500</td>
+                  <td style="padding:6px; text-align:right; font-weight:700; color:var(--blueprint);">₹15 Cr</td>
+                  <td style="padding:6px; text-align:right; font-weight:700; color:var(--blueprint);">12.0%</td>
+                  <td style="padding:6px; text-align:center;"><span style="background:rgba(46,92,138,0.12); color:var(--blueprint); font-weight:900; font-family:'Big Shoulders Display',sans-serif; font-size:12px; border-radius:3px; padding:1px 6px;">B</span></td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line);">
+                  <td style="padding:6px; font-weight:600;">🔊 Speaker</td>
+                  <td style="padding:6px; text-align:right; color:var(--text-dim);">2</td>
+                  <td style="padding:6px; text-align:right; color:var(--text-dim);">500</td>
+                  <td style="padding:6px; text-align:right; color:var(--text-dim);">₹10 Cr</td>
+                  <td style="padding:6px; text-align:right; color:var(--text-dim);">8.0%</td>
+                  <td style="padding:6px; text-align:center;"><span style="background:var(--bg-panel-2); color:var(--text-dim); font-weight:900; font-family:'Big Shoulders Display',sans-serif; font-size:12px; border-radius:3px; padding:1px 6px;">C</span></td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line);">
+                  <td style="padding:6px; font-weight:600;">🔋 Battery</td>
+                  <td style="padding:6px; text-align:right; color:var(--text-dim);">1</td>
+                  <td style="padding:6px; text-align:right; color:var(--text-dim);">400</td>
+                  <td style="padding:6px; text-align:right; color:var(--text-dim);">₹4 Cr</td>
+                  <td style="padding:6px; text-align:right; color:var(--text-dim);">3.2%</td>
+                  <td style="padding:6px; text-align:center;"><span style="background:var(--bg-panel-2); color:var(--text-dim); font-weight:900; font-family:'Big Shoulders Display',sans-serif; font-size:12px; border-radius:3px; padding:1px 6px;">C</span></td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--line);">
+                  <td style="padding:6px; font-weight:600;">🔩 Screws/Fasteners</td>
+                  <td style="padding:6px; text-align:right; color:var(--text-dim);">50</td>
+                  <td style="padding:6px; text-align:right; color:var(--text-dim);">1</td>
+                  <td style="padding:6px; text-align:right; color:var(--text-dim);">₹0.5 Cr</td>
+                  <td style="padding:6px; text-align:right; color:var(--text-dim);">0.4%</td>
+                  <td style="padding:6px; text-align:center;"><span style="background:var(--bg-panel-2); color:var(--text-dim); font-weight:900; font-family:'Big Shoulders Display',sans-serif; font-size:12px; border-radius:3px; padding:1px 6px;">C</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <!-- ABC Summary Cards with Percentages -->
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:12px;">
+            <div style="background:rgba(226,87,28,0.03); border:1px solid var(--orange); border-radius:4px; padding:8px; text-align:center;">
+              <div style="font-family:'Big Shoulders Display',sans-serif; font-weight:900; font-size:15px; color:var(--orange);">Class A (60.2% Val)</div>
+              <div style="font-size:9.5px; color:var(--text-dim); margin-top:2px;">~28% of Items (Screen, Board)</div>
+              <div style="font-size:9px; color:var(--text-faint); margin-top:4px;">Control: <strong>Weekly Review</strong></div>
+            </div>
+            <div style="background:rgba(46,92,138,0.03); border:1px solid var(--blueprint); border-radius:4px; padding:8px; text-align:center;">
+              <div style="font-family:'Big Shoulders Display',sans-serif; font-weight:900; font-size:15px; color:var(--blueprint);">Class B (28.1% Val)</div>
+              <div style="font-size:9.5px; color:var(--text-dim); margin-top:2px;">~28% of Items (Camera, Body)</div>
+              <div style="font-size:9px; color:var(--text-faint); margin-top:4px;">Control: <strong>Biweekly Review</strong></div>
+            </div>
+            <div style="background:var(--bg-panel-2); border:1px solid var(--line-strong); border-radius:4px; padding:8px; text-align:center;">
+              <div style="font-family:'Big Shoulders Display',sans-serif; font-weight:900; font-size:15px; color:var(--text-dim);">Class C (11.7% Val)</div>
+              <div style="font-size:9.5px; color:var(--text-dim); margin-top:2px;">~44% of Items (Speaker, Battery, Screws)</div>
+              <div style="font-size:9px; color:var(--text-faint); margin-top:4px;">Control: <strong>Monthly Review</strong></div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Right: Smartphone Bill of Materials (BOM) visual breakdown -->
+        <div class="dash-card" style="padding:14px; display:flex; flex-direction:column; gap:10px; height:100%;">
+          <h3 class="card-title" style="color:var(--orange); border-bottom:1px solid var(--line); padding-bottom:4px; margin-bottom:4px;">Smartphone BOM Breakdown</h3>
+          
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; align-items:center; margin-top:6px;">
+            <!-- Complete Phone -->
+            <div style="text-align:center; border:1px solid var(--line); border-radius:6px; padding:10px; background:var(--bg-panel-2);">
+              <div style="font-size:9px; color:var(--text-faint); font-weight:700; text-transform:uppercase; margin-bottom:6px;">Complete Phone (100% Value)</div>
+              <img src="complete_phone.png" style="width:100%; max-height:160px; object-fit:contain; border-radius:4px; filter:drop-shadow(0px 4px 8px rgba(0,0,0,0.35));" alt="Complete Phone">
+            </div>
+            
+            <!-- Key Parts Showcase -->
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <!-- Screen -->
+              <div style="display:flex; gap:6px; align-items:center; background:rgba(226,87,28,0.03); border:1px solid rgba(226,87,28,0.15); border-radius:4px; padding:4px;">
+                <img src="phone_screen.png" style="width:38px; height:38px; object-fit:cover; border-radius:3px;" alt="Phone Screen">
+                <div>
+                  <div style="font-size:9.5px; font-weight:700;">OLED Screen</div>
+                  <div style="font-size:8.5px; color:var(--orange); font-weight:600;">Class A (32.1%)</div>
+                </div>
+              </div>
+              
+              <!-- Motherboard -->
+              <div style="display:flex; gap:6px; align-items:center; background:rgba(226,87,28,0.03); border:1px solid rgba(226,87,28,0.15); border-radius:4px; padding:4px;">
+                <img src="phone_motherboard.png" style="width:38px; height:38px; object-fit:cover; border-radius:3px;" alt="Motherboard">
+                <div>
+                  <div style="font-size:9.5px; font-weight:700;">Motherboard</div>
+                  <div style="font-size:8.5px; color:var(--orange); font-weight:600;">Class A (28.1%)</div>
+                </div>
+              </div>
+
+              <!-- Camera -->
+              <div style="display:flex; gap:6px; align-items:center; background:rgba(46,92,138,0.03); border:1px solid rgba(46,92,138,0.15); border-radius:4px; padding:4px;">
+                <img src="phone_camera.png" style="width:38px; height:38px; object-fit:cover; border-radius:3px;" alt="Camera Module">
+                <div>
+                  <div style="font-size:9.5px; font-weight:700;">Camera Unit</div>
+                  <div style="font-size:8.5px; color:var(--blueprint); font-weight:600;">Class B (16.1%)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div style="font-size:10.5px; color:var(--text-dim); line-height:1.4; border-top:1px solid var(--line); padding-top:8px; margin-top:6px;">
+            ℹ️ <strong>BOM Insight:</strong> High-value Class A parts (Screen, Board) make up <strong>60.2%</strong> of the total material cost but only 2 of 7 parts. Class C parts (screws, battery, speaker) are cheap but critical to final assembly.
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+<!-- ==================== TAB 11-16: LEAN & SIX SIGMA (CONSOLIDATED) ==================== -->
+<div id="lean-six-sigma" class="tab-panel">
+  <!-- TPS -->
+  <section class="block">
+    <div class="wrap">
+      <div class="kicker"><span class="kicker-num">1</span></div>
+      <h2>Toyota Production System (TPS)</h2>
+      <p class="lead">Produce required output with the least possible resources. Built on two philosophies: <strong>Respect for People</strong> and <strong>Lean Manufacturing</strong> (elimination of waste).</p>
+      <div class="dash-card reveal" style="padding:14px;margin-bottom:16px;">
+        <svg viewBox="0 0 520 190" style="width:100%;max-width:520px;display:block;margin:0 auto;">
+          <polygon points="260,10 30,62 490,62" fill="var(--bg-panel-2)" stroke="var(--line-strong)" stroke-width="1.5"/>
+          <text x="260" y="44" font-family="'Big Shoulders Display',sans-serif" font-weight="900" font-size="12" text-anchor="middle" fill="var(--orange)">OBJECTIVE: QUALITY &amp; PRODUCTIVITY</text>
+          <rect x="50" y="62" width="178" height="82" fill="var(--bg-panel-2)" stroke="var(--blueprint)" stroke-width="1.5"/>
+          <text x="139" y="100" font-family="'Big Shoulders Display',sans-serif" font-weight="900" font-size="13" text-anchor="middle" fill="var(--blueprint)">JUST IN TIME</text>
+          <text x="139" y="116" font-family="'IBM Plex Mono',monospace" font-size="9" text-anchor="middle" fill="var(--text-dim)">Right part, right time, right qty</text>
+          <rect x="292" y="62" width="178" height="82" fill="var(--bg-panel-2)" stroke="var(--green)" stroke-width="1.5"/>
+          <text x="381" y="100" font-family="'Big Shoulders Display',sans-serif" font-weight="900" font-size="13" text-anchor="middle" fill="var(--green)">JIDOKA</text>
+          <text x="381" y="116" font-family="'IBM Plex Mono',monospace" font-size="9" text-anchor="middle" fill="var(--text-dim)">Auto-stop on defect detection</text>
+          <rect x="30" y="144" width="460" height="36" fill="var(--bg-panel-2)" stroke="var(--line-strong)" stroke-width="1.5"/>
+          <text x="260" y="166" font-family="'Big Shoulders Display',sans-serif" font-weight="900" font-size="11" text-anchor="middle" fill="var(--text-dim)">STANDARDIZED WORK &amp; STABILITY (5S, Kaizen, Heijunka)</text>
+        </svg>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;" class="reveal">
+        <div class="dash-card" style="padding:14px;"><h3 class="card-title" style="margin-bottom:8px;">Respect for People</h3><ul style="margin:0;padding-left:16px;display:flex;flex-direction:column;gap:6px;"><li style="font-size:12px;color:var(--text-dim);">Permanent employment — workers not treated as variable costs</li><li style="font-size:12px;color:var(--text-dim);">Regular performance-linked bonuses</li><li style="font-size:12px;color:var(--text-dim);">Supplier relations built on trust — vendors feel part of Toyota family</li></ul></div>
+        <div class="dash-card" style="padding:14px;"><h3 class="card-title" style="margin-bottom:8px;">Lean Manufacturing</h3><ul style="margin:0;padding-left:16px;display:flex;flex-direction:column;gap:6px;"><li style="font-size:12px;color:var(--text-dim);">Systematic elimination of all waste (Muda)</li><li style="font-size:12px;color:var(--text-dim);">Continuous improvement (Kaizen) by every employee</li><li style="font-size:12px;color:var(--text-dim);">Pull production — make only what is needed, when needed</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JIT -->
+  <section class="block">
+    <div class="wrap">
+      <div class="kicker"><span class="kicker-num">2</span></div>
+      <h2>Just In Time (JIT)</h2>
+      <p class="lead">Supply goods as close as possible to when actually needed — minimising inventory and freeing up capital. Kanban (Pull signal system) enables JIT.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;" class="reveal">
+        <div class="dash-card" style="padding:14px;border-top:3px solid var(--green);"><h3 class="card-title" style="color:var(--green);margin-bottom:8px;">✅ Advantages</h3><ul style="margin:0;padding-left:16px;display:flex;flex-direction:column;gap:6px;"><li style="font-size:12px;color:var(--text-dim);">Short production runs — easy product switching</li><li style="font-size:12px;color:var(--text-dim);">Reduced warehouse costs</li><li style="font-size:12px;color:var(--text-dim);">Less capital tied up in raw material</li></ul></div>
+        <div class="dash-card" style="padding:14px;border-top:3px solid var(--rust);"><h3 class="card-title" style="color:var(--rust);margin-bottom:8px;">⚠️ Disadvantages</h3><ul style="margin:0;padding-left:16px;display:flex;flex-direction:column;gap:6px;"><li style="font-size:12px;color:var(--text-dim);">Supply chain disruption risk — single failure halts production</li><li style="font-size:12px;color:var(--text-dim);"><em>Toyota 1997: supplier fire nearly halted all production</em></li><li style="font-size:12px;color:var(--text-dim);">Sudden demand spikes may not be met</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lean Mfg -->
+  <section class="block">
+    <div class="wrap">
+      <div class="kicker"><span class="kicker-num">3</span></div>
+      <h2>Lean Manufacturing — 8 Wastes (DOWNTIME)</h2>
+      <p class="lead">Eliminate all waste so every step adds value. Common tools: 5S, Kaizen, Poka-Yoke, JIT, Kanban.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;" class="reveal">
+        <div style="background:var(--bg-panel-2);border-radius:4px;padding:9px 11px;border-left:3px solid var(--rust);"><div style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:11.5px;text-transform:uppercase;color:var(--rust);">D — Defects</div><p style="font-size:11px;color:var(--text-dim);margin:3px 0 0;">Products not meeting specs; requires rework or scrap</p></div>
+        <div style="background:var(--bg-panel-2);border-radius:4px;padding:9px 11px;border-left:3px solid var(--orange);"><div style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:11.5px;text-transform:uppercase;color:var(--orange);">O — Overproduction</div><p style="font-size:11px;color:var(--text-dim);margin:3px 0 0;">Making more than needed, earlier than needed</p></div>
+        <div style="background:var(--bg-panel-2);border-radius:4px;padding:9px 11px;border-left:3px solid var(--blueprint);"><div style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:11.5px;text-transform:uppercase;color:var(--blueprint);">W — Waiting</div><p style="font-size:11px;color:var(--text-dim);margin:3px 0 0;">Idle time when people or machines wait for the next step</p></div>
+        <div style="background:var(--bg-panel-2);border-radius:4px;padding:9px 11px;border-left:3px solid var(--green);"><div style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:11.5px;text-transform:uppercase;color:var(--green);">N — Non-Used Talent</div><p style="font-size:11px;color:var(--text-dim);margin:3px 0 0;">Underutilising employee skills, creativity, knowledge</p></div>
+        <div style="background:var(--bg-panel-2);border-radius:4px;padding:9px 11px;border-left:3px solid var(--rust);"><div style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:11.5px;text-transform:uppercase;color:var(--rust);">T — Transportation</div><p style="font-size:11px;color:var(--text-dim);margin:3px 0 0;">Unnecessary movement of materials or products</p></div>
+        <div style="background:var(--bg-panel-2);border-radius:4px;padding:9px 11px;border-left:3px solid var(--orange);"><div style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:11.5px;text-transform:uppercase;color:var(--orange);">I — Inventory</div><p style="font-size:11px;color:var(--text-dim);margin:3px 0 0;">Excess RM, WIP, or FG tying up capital</p></div>
+        <div style="background:var(--bg-panel-2);border-radius:4px;padding:9px 11px;border-left:3px solid var(--blueprint);"><div style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:11.5px;text-transform:uppercase;color:var(--blueprint);">M — Motion</div><p style="font-size:11px;color:var(--text-dim);margin:3px 0 0;">Unnecessary movement of people within a process</p></div>
+        <div style="background:var(--bg-panel-2);border-radius:4px;padding:9px 11px;border-left:3px solid var(--green);"><div style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:11.5px;text-transform:uppercase;color:var(--green);">E — Extra-Processing</div><p style="font-size:11px;color:var(--text-dim);margin:3px 0 0;">Doing more work than the customer requires or values</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Six Sigma -->
+  <section class="block">
+    <div class="wrap">
+      <div class="kicker"><span class="kicker-num">4</span></div>
+      <h2>Six Sigma (6σ)</h2>
+      <p class="lead">Quality is a compulsion, not a choice. Target: <strong>≤ 3.4 defects per million opportunities</strong>. Motorola 1987 → GE 1996 → Tata Steel, Asian Paints, L&amp;T Switch Gear.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;" class="reveal">
+        <div class="dash-card" style="padding:14px;">
+          <h3 class="card-title" style="margin-bottom:10px;">Belt Certification</h3>
+          <div style="display:flex;gap:0;flex-wrap:wrap;">
+            <div style="flex:1;min-width:90px;background:rgba(226,87,28,0.08);border:1px solid var(--orange);border-radius:4px 0 0 4px;padding:9px;text-align:center;"><div style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:11px;color:var(--orange);">YELLOW</div><p style="font-size:10px;color:var(--text-dim);margin:3px 0 0;">Aware of principles</p></div>
+            <div style="flex:1;min-width:90px;background:rgba(61,122,82,0.08);border:1px solid var(--green);border-left:none;padding:9px;text-align:center;"><div style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:11px;color:var(--green);">GREEN</div><p style="font-size:10px;color:var(--text-dim);margin:3px 0 0;">Uses DMAIC tools</p></div>
+            <div style="flex:1;min-width:90px;background:rgba(46,92,138,0.08);border:1px solid var(--blueprint);border-left:none;padding:9px;text-align:center;"><div style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:11px;color:var(--blueprint);">BLACK</div><p style="font-size:10px;color:var(--text-dim);margin:3px 0 0;">Full-time project lead</p></div>
+            <div style="flex:1;min-width:90px;background:rgba(187,59,46,0.08);border:1px solid var(--rust);border-left:none;border-radius:0 4px 4px 0;padding:9px;text-align:center;"><div style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:11px;color:var(--rust);">MASTER</div><p style="font-size:10px;color:var(--text-dim);margin:3px 0 0;">BB + 2 yrs exp.</p></div>
+          </div>
+          <div style="margin-top:10px;">
+            <div class="table-container">
+              <table style="width:100%;min-width:220px;border-collapse:collapse;font-size:11.5px;">
+                <thead><tr style="background:var(--bg-panel-2);border-bottom:1px solid var(--line-strong);font-family:'Big Shoulders Display',sans-serif;font-size:10px;text-transform:uppercase;color:var(--text-dim);"><th style="padding:6px 8px;">Sigma</th><th style="padding:6px 8px;text-align:right;">DPMO</th><th style="padding:6px 8px;text-align:right;">% OK</th></tr></thead>
+                <tbody>
+                  <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 8px;font-weight:600;">1σ</td><td style="padding:5px 8px;text-align:right;color:var(--rust);">691,462</td><td style="padding:5px 8px;text-align:right;">30.9%</td></tr>
+                  <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 8px;font-weight:600;">3σ</td><td style="padding:5px 8px;text-align:right;color:var(--orange);">66,807</td><td style="padding:5px 8px;text-align:right;">93.3%</td></tr>
+                  <tr style="border-bottom:1px solid var(--line);"><td style="padding:5px 8px;font-weight:600;">4σ</td><td style="padding:5px 8px;text-align:right;color:var(--orange);">6,210</td><td style="padding:5px 8px;text-align:right;">99.4%</td></tr>
+                  <tr><td style="padding:5px 8px;font-weight:600;color:var(--orange);">6σ</td><td style="padding:5px 8px;text-align:right;color:var(--green);font-weight:700;">3.4</td><td style="padding:5px 8px;text-align:right;color:var(--green);font-weight:700;">99.99966%</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="dash-card" style="padding:14px;">
+          <h3 class="card-title" style="margin-bottom:12px;">DMAIC vs DMADV</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div>
+              <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--blueprint);margin-bottom:6px;">DMAIC — Existing Process</div>
+              <div style="display:flex;flex-direction:column;gap:4px;">
+                <div style="display:flex;gap:6px;align-items:center;"><div style="background:var(--blueprint);color:#fff;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:11px;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">D</div><span style="font-size:11.5px;">Define problem &amp; goals</span></div>
+                <div style="display:flex;gap:6px;align-items:center;"><div style="background:var(--blueprint);color:#fff;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:11px;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">M</div><span style="font-size:11.5px;">Measure current performance</span></div>
+                <div style="display:flex;gap:6px;align-items:center;"><div style="background:var(--blueprint);color:#fff;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:11px;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">A</div><span style="font-size:11.5px;">Analyze root causes</span></div>
+                <div style="display:flex;gap:6px;align-items:center;"><div style="background:var(--blueprint);color:#fff;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:11px;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">I</div><span style="font-size:11.5px;">Improve — implement solutions</span></div>
+                <div style="display:flex;gap:6px;align-items:center;"><div style="background:var(--blueprint);color:#fff;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:11px;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">C</div><span style="font-size:11.5px;">Control — standardise &amp; monitor</span></div>
+              </div>
+            </div>
+            <div>
+              <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--green);margin-bottom:6px;">DMADV — New Process</div>
+              <div style="display:flex;flex-direction:column;gap:4px;">
+                <div style="display:flex;gap:6px;align-items:center;"><div style="background:var(--green);color:#fff;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:11px;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">D</div><span style="font-size:11.5px;">Define goals &amp; customer needs</span></div>
+                <div style="display:flex;gap:6px;align-items:center;"><div style="background:var(--green);color:#fff;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:11px;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">M</div><span style="font-size:11.5px;">Measure critical quality attributes</span></div>
+                <div style="display:flex;gap:6px;align-items:center;"><div style="background:var(--green);color:#fff;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:11px;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">A</div><span style="font-size:11.5px;">Analyze design alternatives</span></div>
+                <div style="display:flex;gap:6px;align-items:center;"><div style="background:var(--green);color:#fff;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:11px;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">D</div><span style="font-size:11.5px;">Design detailed process</span></div>
+                <div style="display:flex;gap:6px;align-items:center;"><div style="background:var(--green);color:#fff;font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:11px;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">V</div><span style="font-size:11.5px;">Verify — test &amp; validate</span></div>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:12px;background:rgba(226,87,28,0.04);border:1px solid var(--orange);border-radius:4px;padding:10px;">
+            <div style="font-family:'Big Shoulders Display',sans-serif;font-weight:900;font-size:13px;color:var(--orange);margin-bottom:4px;">LEAN + SIX SIGMA</div>
+            <p style="font-size:11.5px;color:var(--text-dim);margin:0;line-height:1.5;">Lean eliminates waste; Six Sigma reduces defects &amp; variation. Combined = faster, higher-quality, lower-cost processes. <em>"Efficiency is doing things right; effectiveness is doing the right things."</em></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+
+
+
+
+
+<!-- ==================== TAB 17: BULLWHIP EFFECT ==================== -->
+<div id="bullwhip" class="tab-panel">
+  <section class="block">
+    <div class="wrap">
+      <div class="kicker"><span class="kicker-num">13</span></div>
+      <h2>The Bullwhip Effect</h2>
+      <p class="lead">Increasing variability of orders (demand distortion) travelling upstream in the supply chain. Small ripples at the customer end become huge waves at the supplier end.</p>
+
+      <!-- Bullwhip Diagram -->
+      <div class="dash-card reveal" style="padding:16px;margin-bottom:20px;">
+        <h3 class="card-title" style="margin-bottom:12px;">Demand Amplification Across the Supply Chain</h3>
+        <svg viewBox="0 0 560 130" style="width:100%;display:block;">
+          <!-- Tiers -->
+          <rect x="10" y="50" width="80" height="30" rx="3" fill="var(--bg-panel-2)" stroke="var(--green)" stroke-width="1.5"/>
+          <text x="50" y="63" font-size="9" font-family="'Big Shoulders Display',sans-serif" font-weight="900" text-anchor="middle" fill="var(--green)">CUSTOMER</text>
+          <text x="50" y="74" font-size="8" font-family="IBM Plex Mono,monospace" text-anchor="middle" fill="var(--text-dim)">10 units</text>
+          <polygon points="90,65 100,60 100,70" fill="var(--text-dim)"/>
+
+          <rect x="100" y="44" width="100" height="42" rx="3" fill="var(--bg-panel-2)" stroke="var(--blueprint)" stroke-width="1.5"/>
+          <text x="150" y="60" font-size="9" font-family="'Big Shoulders Display',sans-serif" font-weight="900" text-anchor="middle" fill="var(--blueprint)">RETAILER</text>
+          <text x="150" y="73" font-size="8" font-family="IBM Plex Mono,monospace" text-anchor="middle" fill="var(--text-dim)">12 units</text>
+          <polygon points="200,65 210,60 210,70" fill="var(--text-dim)"/>
+
+          <rect x="210" y="36" width="110" height="58" rx="3" fill="var(--bg-panel-2)" stroke="var(--orange)" stroke-width="1.5"/>
+          <text x="265" y="56" font-size="9" font-family="'Big Shoulders Display',sans-serif" font-weight="900" text-anchor="middle" fill="var(--orange)">DISTRIBUTOR</text>
+          <text x="265" y="69" font-size="8" font-family="IBM Plex Mono,monospace" text-anchor="middle" fill="var(--text-dim)">15 units</text>
+          <polygon points="320,65 330,60 330,70" fill="var(--text-dim)"/>
+
+          <rect x="330" y="24" width="110" height="82" rx="3" fill="var(--bg-panel-2)" stroke="var(--orange)" stroke-width="1.8"/>
+          <text x="385" y="52" font-size="9" font-family="'Big Shoulders Display',sans-serif" font-weight="900" text-anchor="middle" fill="var(--orange)">MANUFACTURER</text>
+          <text x="385" y="65" font-size="8" font-family="IBM Plex Mono,monospace" text-anchor="middle" fill="var(--text-dim)">20 units</text>
+          <polygon points="440,65 450,60 450,70" fill="var(--text-dim)"/>
+
+          <rect x="450" y="10" width="100" height="110" rx="3" fill="var(--bg-panel-2)" stroke="var(--rust)" stroke-width="2"/>
+          <text x="500" y="45" font-size="9" font-family="'Big Shoulders Display',sans-serif" font-weight="900" text-anchor="middle" fill="var(--rust)">SUPPLIER</text>
+          <text x="500" y="60" font-size="8" font-family="IBM Plex Mono,monospace" text-anchor="middle" fill="var(--rust)">Excess</text>
+          <text x="500" y="72" font-size="8" font-family="IBM Plex Mono,monospace" text-anchor="middle" fill="var(--rust)">inventory &amp;</text>
+          <text x="500" y="84" font-size="8" font-family="IBM Plex Mono,monospace" text-anchor="middle" fill="var(--rust)">inefficiency</text>
+        </svg>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;" class="reveal">
+        <div class="dash-card" style="padding:16px;">
+          <h3 class="card-title" style="margin-bottom:10px;">Root Causes</h3>
+          <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:7px;">
+            <li style="font-size:12.5px;color:var(--text-dim);line-height:1.5;"><strong style="color:var(--text);">Demand forecast updating</strong> — each tier adjusts forecasts, amplifying errors</li>
+            <li style="font-size:12.5px;color:var(--text-dim);line-height:1.5;"><strong style="color:var(--text);">Order batching</strong> — periodic/push ordering creates lumpy demand</li>
+            <li style="font-size:12.5px;color:var(--text-dim);line-height:1.5;"><strong style="color:var(--text);">Price fluctuations</strong> — forward buying and stocking up on discounts</li>
+            <li style="font-size:12.5px;color:var(--text-dim);line-height:1.5;"><strong style="color:var(--text);">Shortage gaming</strong> — exaggerated or duplicate orders during scarcity</li>
+            <li style="font-size:12.5px;color:var(--text-dim);line-height:1.5;"><strong style="color:var(--text);">Information gaps</strong> — poor communication across supply chain tiers</li>
+          </ul>
+        </div>
+        <div class="dash-card" style="padding:16px;">
+          <h3 class="card-title" style="margin-bottom:10px;">Mitigation Strategies</h3>
+          <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:7px;">
+            <li style="font-size:12.5px;color:var(--text-dim);line-height:1.5;"><strong style="color:var(--green);">Information sharing</strong> — share real demand data (POS) across all tiers</li>
+            <li style="font-size:12.5px;color:var(--text-dim);line-height:1.5;"><strong style="color:var(--green);">Channel alignment</strong> — vendor-managed inventory (VMI), collaborative forecasting</li>
+            <li style="font-size:12.5px;color:var(--text-dim);line-height:1.5;"><strong style="color:var(--green);">Operational efficiency</strong> — reduce lead times and order minimums; move to pull systems</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">Interactive Operations Study Guide — Every number and visualization recalculates live.</div>
+</footer>
+
+<script>
+// ==================== TAB Switching Logic ====================
+const tabs = document.querySelectorAll('.nav-tab');
+const panels = document.querySelectorAll('.tab-panel');
+
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    const targetPanel = tab.dataset.tab;
+    
+    tabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+
+    panels.forEach(panel => {
+      if (panel.id === targetPanel) {
+        panel.classList.add('active');
+        requestAnimationFrame(() => {
+          panel.classList.add('fade-in');
+        });
+      } else {
+        panel.classList.remove('active', 'fade-in');
+      }
+    });
+    
+    if (targetPanel === 'time-metrics') {
+      const takt = taktMinutes();
+      drawPulse(takt);
+    }
+    if (targetPanel === 'inventory-mgmt') {
+      updateEOQ();
+    }
+  });
+});
+
+// ==================== TAB 1: TIME METRICS LOGIC ====================
+let stations = [
+  {name:'Stamping', sub:'Press Shop', cycle:0.75, icon:'press'},
+  {name:'Body Weld', sub:'BIW Line', cycle:1.08, icon:'weld'},
+  {name:'Paint Shop', sub:'E-Coat & Topcoat', cycle:0.92, icon:'paint'},
+  {name:'Final Assembly', sub:'Trim & Chassis', cycle:0.58, icon:'wrench'}
+];
+let queues = [0.33, 0.50, 0.42];
+let orderProcessing = 3.0;
+let shipping = 7.0;
+
+let availableMin = 480;
+let demandUnits = 500;
+
+const availSlider = document.getElementById('availSlider');
+const demandSlider = document.getElementById('demandSlider');
+const availReadout = document.getElementById('availReadout');
+const demandReadout = document.getElementById('demandReadout');
+const pulseReadout = document.getElementById('pulseReadout');
+const taktStatus = document.getElementById('taktStatus');
+const lineRail = document.getElementById('lineRail');
+const totalsStrip = document.getElementById('totalsStrip');
+const flowBar = document.getElementById('flowBar');
+const flowMilestones = document.getElementById('flowMilestones');
+const flowCar = document.getElementById('flowCar');
+
+function taktMinutes(){ return availableMin/demandUnits; }
+function fmt(m){ return m.toFixed(2)+' min'; }
+
+const ICONS = {
+  press: `<svg class="st-icon icon-press" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="26" width="28" height="5" rx="1"/><g class="press-head"><rect x="8" y="4" width="20" height="8" rx="1"/><rect x="15" y="12" width="6" height="10"/></g></svg>`,
+  weld: `<svg class="st-icon icon-weld" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 30 L30 30"/><path d="M10 30 L10 16 L26 16 L26 30"/><g class="weld-sparks" fill="currentColor" stroke="none"><circle class="sp sp1" cx="18" cy="14" r="1.4"/><circle class="sp sp2" cx="22" cy="12" r="1.1"/><circle class="sp sp3" cx="15" cy="11" r="1.2"/></g></svg>`,
+  paint: `<svg class="st-icon icon-paint" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 10 L20 10 L24 14 L24 20 L8 20 Z"/><path d="M24 15 L30 15"/><g class="paint-drops" fill="currentColor" stroke="none"><circle class="dr dr1" cx="27" cy="20" r="1.3"/><circle class="dr dr2" cx="30" cy="23" r="1"/><circle class="dr dr3" cx="24" cy="24" r="1.1"/></g></svg>`,
+  wrench: `<svg class="st-icon icon-wrench" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="2"><g class="wrench-rotate"><path d="M13 8 a6 6 0 1 0 8.5 8.5 L28 23 l3 3 l-3 3 l-3-3 l-6.5-6.5 A6 6 0 0 0 13 8 Z"/></g></svg>`
+};
+
+const ICON_STYLE_ID = 'icon-anim-styles';
+if(!document.getElementById(ICON_STYLE_ID)){
+  const st = document.createElement('style');
+  st.id = ICON_STYLE_ID;
+  st.textContent = `
+    .icon-press .press-head{animation:pressDown 1.1s ease-in-out infinite;transform-origin:top center;}
+    @keyframes pressDown{0%,100%{transform:translateY(0);}50%{transform:translateY(4px);}}
+    .icon-weld .sp{animation:sparkFlicker 0.9s ease-in-out infinite;}
+    .icon-weld .sp2{animation-delay:.2s;}
+    .icon-weld .sp3{animation-delay:.4s;}
+    @keyframes sparkFlicker{0%,100%{opacity:0.15;transform:scale(0.7);}50%{opacity:1;transform:scale(1.15);}}
+    .icon-paint .dr{animation:dropFall 1.3s ease-in infinite;}
+    .icon-paint .dr2{animation-delay:.35s;}
+    .icon-paint .dr3{animation-delay:.7s;}
+    @keyframes dropFall{0%{opacity:0;transform:translateY(-2px);}30%{opacity:1;}100%{opacity:0;transform:translateY(6px);}}
+    .icon-wrench .wrench-rotate{animation:wrenchWobble 1.6s ease-in-out infinite;transform-origin:60% 60%;}
+    @keyframes wrenchWobble{0%,100%{transform:rotate(0deg);}50%{transform:rotate(-14deg);}}
+
+    /* Station Card SVGs animations */
+    .press-head-anim { animation: pressDownCompact 1.2s ease-in-out infinite; transform-origin: top center; }
+    @keyframes pressDownCompact { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+    .weld-arm-anim { animation: weldArmPivot 1.5s ease-in-out infinite; transform-origin: 130px 65px; }
+    @keyframes weldArmPivot { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-5deg) translate(3px, -2px); } }
+    .weld-sparks-anim { animation: sparksFlickerCompact 0.8s steps(2) infinite; transform-origin: 75px 40px; }
+    @keyframes sparksFlickerCompact { 0%, 100% { opacity: 0; transform: scale(0.5); } 50% { opacity: 1; transform: scale(1.2); } }
+    .spray-anim { animation: sprayMotion 1s linear infinite; }
+    .spray-anim-delayed { animation: sprayMotion 1s linear infinite; animation-delay: 0.5s; }
+    @keyframes sprayMotion { 0% { opacity: 0; transform: translateY(-4px); } 50% { opacity: 1; } 100% { opacity: 0; transform: translateY(6px); } }
+    .wrench-anim { animation: wrenchRotateCompact 1.4s ease-in-out infinite; transform-origin: center center; }
+    @keyframes wrenchRotateCompact { 0%, 100% { transform: translate(100px, 47px) rotate(0deg); } 50% { transform: translate(100px, 47px) rotate(-35deg); } }
+  `;
+  document.head.appendChild(st);
+}
+
+function render(){
+  const takt = taktMinutes();
+  pulseReadout.textContent = takt.toFixed(2);
+  availReadout.textContent = availableMin;
+  demandReadout.textContent = demandUnits;
+
+  const bottleneckCycle = Math.max(...stations.map(s=>s.cycle));
+  const meetsDemand = bottleneckCycle <= takt;
+  taktStatus.textContent = meetsDemand ? 'LINE MEETS DEMAND' : 'LINE CANNOT KEEP UP';
+  taktStatus.className = 'takt-status ' + (meetsDemand ? 'ok' : 'bad');
+
+  const stationSVGs = {
+    press: `<svg viewBox="0 0 150 75" style="width:100%; height:100%; display:block;" fill="none" stroke="var(--text-dim)" stroke-width="1.2">
+      <rect width="150" height="75" fill="var(--bg-panel-2)" stroke="none" />
+      <rect x="25" y="10" width="100" height="55" rx="3" stroke="var(--line-strong)" stroke-width="1.5" />
+      <rect x="40" y="20" width="70" height="35" fill="var(--bg-panel)" stroke="var(--line-strong)" />
+      <g>
+        <line x1="55" y1="10" x2="55" y2="30" stroke="var(--text-dim)" stroke-width="2" />
+        <line x1="95" y1="10" x2="95" y2="30" stroke="var(--text-dim)" stroke-width="2" />
+        <rect x="45" y="30" width="60" height="12" fill="var(--blueprint)" stroke="var(--text-dim)" />
+      </g>
+      <circle cx="15" cy="50" r="10" fill="var(--bg-base)" stroke="var(--text-faint)" />
+      <circle cx="15" cy="50" r="4" fill="none" stroke="var(--text-faint)" />
+      <path d="M 15 60 L 45 60" stroke="var(--text-faint)" />
+      <path d="M 50 60 L 60 55 L 90 55 L 100 60 Z" fill="none" stroke="var(--orange)" />
+      <line x1="0" y1="65" x2="150" y2="65" stroke="var(--text-dim)" stroke-width="1.5" />
+    </svg>`,
+    weld: `<svg viewBox="0 0 150 75" style="width:100%; height:100%; display:block;" fill="none" stroke="var(--text-dim)" stroke-width="1.2">
+      <rect width="150" height="75" fill="var(--bg-panel-2)" stroke="none" />
+      <path d="M 15 55 L 35 30 L 95 30 L 115 55 Z" fill="none" stroke="var(--blueprint)" stroke-width="1.5" />
+      <circle cx="40" cy="55" r="8" fill="var(--bg-panel)" stroke="var(--line-strong)" />
+      <circle cx="90" cy="55" r="8" fill="var(--bg-panel)" stroke="var(--line-strong)" />
+      <g>
+        <path d="M 130 65 L 115 35 L 85 45" fill="none" stroke="var(--orange)" stroke-width="2.5" />
+        <circle cx="115" cy="35" r="3" fill="var(--text-dim)" />
+        <line x1="85" y1="45" x2="75" y2="40" stroke="var(--text-dim)" stroke-width="1.5" />
+      </g>
+      <line x1="0" y1="65" x2="150" y2="65" stroke="var(--text-dim)" stroke-width="1.5" />
+    </svg>`,
+    paint: `<svg viewBox="0 0 150 75" style="width:100%; height:100%; display:block;" fill="none" stroke="var(--text-dim)" stroke-width="1.2">
+      <rect width="150" height="75" fill="var(--bg-panel-2)" stroke="none" />
+      <path d="M 25 50 Q 50 35 100 35 Q 125 50 125 50 Z" fill="none" stroke="var(--line-strong)" />
+      <line x1="45" y1="10" x2="45" y2="22" stroke="var(--text-dim)" stroke-width="1.5" />
+      <path d="M 40 22 L 50 22 L 45 27 Z" fill="var(--text-dim)" />
+      <line x1="95" y1="10" x2="95" y2="22" stroke="var(--text-dim)" stroke-width="1.5" />
+      <path d="M 90 22 L 100 22 L 95 27 Z" fill="var(--text-dim)" />
+      <line x1="0" y1="65" x2="150" y2="65" stroke="var(--text-dim)" stroke-width="1.5" />
+    </svg>`,
+    wrench: `<svg viewBox="0 0 150 75" style="width:100%; height:100%; display:block;" fill="none" stroke="var(--text-dim)" stroke-width="1.2">
+      <rect width="150" height="75" fill="var(--bg-panel-2)" stroke="none" />
+      <rect x="35" y="25" width="80" height="22" rx="4" fill="var(--bg-panel)" stroke="var(--text-dim)" stroke-width="1.5" />
+      <path d="M 45 25 L 55 12 L 95 12 L 105 25 Z" fill="var(--bg-panel-2)" stroke="var(--text-dim)" />
+      <circle cx="50" cy="47" r="7" fill="var(--bg-base)" stroke="var(--text-dim)" stroke-width="1.2" />
+      <circle cx="100" cy="47" r="7" fill="var(--bg-base)" stroke="var(--text-dim)" stroke-width="1.2" />
+      <line x1="20" y1="65" x2="20" y2="40" stroke="var(--line-strong)" stroke-width="3" />
+      <line x1="130" y1="65" x2="130" y2="40" stroke="var(--line-strong)" stroke-width="3" />
+      <line x1="20" y1="40" x2="130" y2="40" stroke="var(--line-strong)" stroke-width="2" />
+      <g transform="translate(100, 47)">
+        <path d="M 0 0 L 15 -15 L 20 -10 Z" fill="var(--bg-panel)" stroke="var(--orange)" stroke-width="1.5" />
+        <circle cx="0" cy="0" r="2.5" fill="var(--orange)" />
+      </g>
+      <line x1="0" y1="65" x2="150" y2="65" stroke="var(--text-dim)" stroke-width="1.5" />
+    </svg>`
+  };
+
+  const imgMap = {
+    press: 'stamping_press.png',
+    weld: 'body_weld.png',
+    paint: 'paint_shop.png',
+    wrench: 'final_assembly.png'
+  };
+
+  lineRail.innerHTML = '';
+  stations.forEach((st, i)=>{
+    const isBottleneck = st.cycle === bottleneckCycle;
+    const el = document.createElement('div');
+    el.className = 'station' + (isBottleneck ? ' bottleneck' : '');
+    const pct = Math.min(100, (st.cycle/Math.max(takt,bottleneckCycle))*100);
+    el.innerHTML = `
+      ${isBottleneck ? '<div class="flag">BOTTLENECK</div>' : ''}
+      <div class="station-img-container">
+        <img src="${imgMap[st.icon]}" alt="${st.name}">
+      </div>
+      <div style="display:flex; align-items:center; gap:10px; margin-top: 6px;">
+        <div style="text-align: left;">
+          <div class="st-name">${st.name}</div>
+          <div class="st-sub">${st.sub}</div>
+        </div>
+      </div>
+      <div class="st-time" style="margin-top:4px;">${st.cycle.toFixed(2)}<small> min/unit</small></div>
+      <input type="number" min="0.05" max="3.5" step="0.05" value="${st.cycle.toFixed(2)}" data-idx="${i}">
+      <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
+    `;
+    lineRail.appendChild(el);
+
+    if(i < queues.length){
+      const q = document.createElement('div');
+      q.className = 'queue-gap';
+      
+      const carCount = Math.min(4, Math.max(1, Math.round(queues[i] * 6)));
+      let carsHtml = '<div class="buffer-belt">';
+      for(let c=0; c<carCount; c++) {
+        carsHtml += '<div class="buffer-car"></div>';
+      }
+      carsHtml += '</div>';
+      
+      q.innerHTML = `
+        <div style="text-align:center; z-index:1; display:flex; flex-direction:column; align-items:center; gap:2px;">
+          <div class="q-label" style="font-size: 8px;">Buffer ${i+1}</div>
+          <input type="number" min="0.0" max="3.0" step="0.05" value="${queues[i].toFixed(2)}" data-qidx="${i}" style="width: 52px; font-family:'IBM Plex Mono', monospace; font-size: 10.5px; padding: 1px 3px; border: 1px solid var(--line); border-radius: 3px; background: var(--bg-panel); text-align: center; color: var(--orange); font-weight: 700; outline: none; margin: 2px 0;">
+          <div class="q-time" style="font-size: 8.5px; color: var(--text-faint);">min</div>
+        </div>
+        ${carsHtml}
+      `;
+      lineRail.appendChild(q);
+    }
+  });
+
+  lineRail.querySelectorAll('input[data-idx]').forEach(inp=>{
+    inp.addEventListener('change', e=>{
+      const idx = +e.target.dataset.idx;
+      const val = Math.max(0.05, Math.min(3.5, parseFloat(e.target.value) || stations[idx].cycle));
+      stations[idx].cycle = val;
+      render();
+    });
+  });
+
+  lineRail.querySelectorAll('input[data-qidx]').forEach(inp=>{
+    inp.addEventListener('change', e=>{
+      const idx = +e.target.dataset.qidx;
+      const val = Math.max(0.0, Math.min(3.0, parseFloat(e.target.value) || queues[idx]));
+      queues[idx] = val;
+      render();
+    });
+  });
+
+  const processTotal = stations.reduce((a,s)=>a+s.cycle,0);
+  const queueTotal = queues.reduce((a,q)=>a+q,0);
+  const mfgLead = processTotal + queueTotal;
+  const leadTotal = mfgLead + orderProcessing + shipping;
+
+  totalsStrip.innerHTML = `
+    <div class="total-cell processc"><span class="t-label">Process Time</span><span class="t-val">${fmt(processTotal)}</span></div>
+    <div class="total-cell queuec"><span class="t-label">Buffer / Queue</span><span class="t-val">+${fmt(queueTotal)}</span></div>
+    <div class="total-cell leadc"><span class="t-label">Mfg Lead Time</span><span class="t-val">${fmt(mfgLead)}</span></div>
+    <div class="total-cell"><span class="t-label" style="color:var(--text-dim)">Full Lead Time</span><span class="t-val" style="color:var(--text); font-weight:700;">${fmt(leadTotal)}</span></div>
+  `;
+
+  document.getElementById('processNestTime').textContent = fmt(processTotal);
+  document.getElementById('mfgNestTime').textContent = fmt(mfgLead);
+  document.getElementById('leadNestTime').textContent = fmt(leadTotal);
+
+  drawPulse(takt);
+  drawFlow(leadTotal);
+  drawChart(takt);
+}
+
+function drawChart(takt) {
+  const chartSvg = document.getElementById('analysisChart');
+  if (!chartSvg) return;
+
+  const w = 800, h = 260;
+  const paddingLeft = 45;
+  const paddingRight = 20;
+  const paddingTop = 20;
+  const paddingBottom = 30;
+  const graphWidth = w - paddingLeft - paddingRight;
+  const graphHeight = h - paddingTop - paddingBottom;
+
+  // Dynamic maxVal (default 1.5 to double bar height)
+  let maxVal = 1.5;
+  const maxCycle = Math.max(...stations.map(s => s.cycle), takt);
+  if (maxCycle > 1.5) {
+    maxVal = Math.ceil(maxCycle * 2) / 2; // round to nearest 0.5
+  }
+
+  chartSvg.innerHTML = '';
+
+  // Generate dynamic grid ticks at 0.5 intervals
+  const gridTicks = [];
+  for (let t = 0; t <= maxVal; t += 0.5) {
+    gridTicks.push(t);
+  }
+  gridTicks.forEach(tick => {
+    const y = paddingTop + graphHeight * (1 - tick / maxVal);
+    
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', paddingLeft);
+    line.setAttribute('x2', w - paddingRight);
+    line.setAttribute('y1', y);
+    line.setAttribute('y2', y);
+    line.setAttribute('stroke', tick === 0 ? 'var(--line-strong)' : 'var(--line)');
+    line.setAttribute('stroke-width', tick === 0 ? '1.5' : '1');
+    if (tick > 0) {
+      line.setAttribute('stroke-dasharray', '4,4');
+    }
+    chartSvg.appendChild(line);
+
+    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    text.setAttribute('x', paddingLeft - 8);
+    text.setAttribute('y', y + 4);
+    text.setAttribute('font-family', "'IBM Plex Mono', monospace");
+    text.setAttribute('font-size', '12px');
+    text.setAttribute('font-weight', '600');
+    text.setAttribute('text-anchor', 'end');
+    text.setAttribute('fill', 'var(--text-dim)');
+    text.textContent = tick.toFixed(1) + ' min';
+    chartSvg.appendChild(text);
+  });
+
+  const stationCount = stations.length;
+  const barSpacing = graphWidth / stationCount;
+  const barWidth = 90;
+
+  let bottleneckCycle = Math.max(...stations.map(s => s.cycle));
+  let insightPanel = document.getElementById('chartInsightPanel');
+  let insightHtml = `<h4 style="font-family:'Big Shoulders Display',sans-serif;font-size:12px;margin:0 0 4px 0;letter-spacing:0.08em;color:var(--text-dim);text-transform:uppercase;">Line Insights</h4>`;
+  let bottleneckNames = [];
+
+  stations.forEach((st, i) => {
+    const cycle = st.cycle;
+    const isExceeded = cycle > takt;
+    const isBottleneck = cycle === bottleneckCycle;
+    
+    const x = paddingLeft + (i * barSpacing) + (barSpacing - barWidth) / 2;
+    const barHeight = graphHeight * (cycle / maxVal);
+    const y = paddingTop + graphHeight - barHeight;
+
+    let barColor = 'var(--green)';
+    if (isExceeded) {
+      barColor = 'var(--rust)';
+    } else if (isBottleneck) {
+      barColor = 'var(--blueprint)';
+    }
+
+    const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    rect.setAttribute('x', x);
+    rect.setAttribute('y', y);
+    rect.setAttribute('width', barWidth);
+    rect.setAttribute('height', barHeight);
+    rect.setAttribute('rx', '3');
+    rect.setAttribute('fill', barColor);
+    rect.style.transition = 'y 0.3s ease, height 0.3s ease, fill 0.3s ease';
+    
+    if (isBottleneck) {
+      rect.setAttribute('stroke', isExceeded ? 'var(--orange)' : 'var(--blueprint)');
+      rect.setAttribute('stroke-width', '1.5');
+      if (isExceeded) {
+        rect.style.animation = 'pulseBar 1.5s infinite';
+      }
+    }
+    
+    chartSvg.appendChild(rect);
+
+    const valText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    valText.setAttribute('x', x + barWidth / 2);
+    valText.setAttribute('y', y - 6);
+    valText.setAttribute('font-family', "'IBM Plex Mono', monospace");
+    valText.setAttribute('font-size', '13.5px');
+    valText.setAttribute('font-weight', '700');
+    valText.setAttribute('text-anchor', 'middle');
+    valText.setAttribute('fill', isExceeded ? 'var(--rust)' : 'var(--text)');
+    valText.textContent = cycle.toFixed(2) + ' m';
+    chartSvg.appendChild(valText);
+
+    const xLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    xLabel.setAttribute('x', x + barWidth / 2);
+    xLabel.setAttribute('y', h - paddingBottom + 18);
+    xLabel.setAttribute('font-family', "'IBM Plex Sans', sans-serif");
+    xLabel.setAttribute('font-size', '13px');
+    xLabel.setAttribute('font-weight', '600');
+    xLabel.setAttribute('text-anchor', 'middle');
+    xLabel.setAttribute('fill', 'var(--text)');
+    xLabel.textContent = st.name;
+    chartSvg.appendChild(xLabel);
+
+    if (isBottleneck) {
+      bottleneckNames.push(st.name);
+    }
+    
+    const statusText = isExceeded 
+      ? `<span style="color:var(--rust);font-weight:600;">+${(cycle - takt).toFixed(2)}m</span>`
+      : `<span style="color:var(--green); font-weight:500;">OK</span>`;
+      
+    insightHtml += `
+      <div style="font-size:11px;display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding:2px 0;">
+        <span style="font-weight:500;color:var(--text);">${st.name}</span>
+        <span style="margin-left:auto;font-family:'IBM Plex Mono',monospace;">${statusText}</span>
+      </div>
+    `;
+  });
+
+  if (takt <= maxVal) {
+    const yTakt = paddingTop + graphHeight * (1 - takt / maxVal);
+
+    const taktLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    taktLine.setAttribute('x1', paddingLeft);
+    taktLine.setAttribute('x2', w - paddingRight);
+    taktLine.setAttribute('y1', yTakt);
+    taktLine.setAttribute('y2', yTakt);
+    taktLine.setAttribute('stroke', 'var(--orange)');
+    taktLine.setAttribute('stroke-width', '2');
+    taktLine.setAttribute('stroke-dasharray', '5,3');
+    chartSvg.appendChild(taktLine);
+
+    const taktLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    taktLabel.setAttribute('x', w - paddingRight - 4);
+    taktLabel.setAttribute('y', yTakt - 6);
+    taktLabel.setAttribute('font-family', "'IBM Plex Mono', monospace");
+    taktLabel.setAttribute('font-size', '12.5px');
+    taktLabel.setAttribute('font-weight', '700');
+    taktLabel.setAttribute('text-anchor', 'end');
+    taktLabel.setAttribute('fill', 'var(--orange)');
+    taktLabel.textContent = `Takt: ${takt.toFixed(2)} min`;
+    chartSvg.appendChild(taktLabel);
+  }
+
+  const isMeets = bottleneckCycle <= takt;
+  const summaryText = isMeets
+    ? `<div style="margin-top:6px;padding:6px 8px;background:rgba(61,122,82,0.08);border:1px solid rgba(61,122,82,0.3);border-radius:4px;font-size:11px;line-height:1.35;color:var(--green);">
+         <strong>✓ Balanced</strong><br>All under takt.
+       </div>`
+    : `<div style="margin-top:6px;padding:6px 8px;background:rgba(187,59,46,0.08);border:1px solid rgba(187,59,46,0.3);border-radius:4px;font-size:11px;line-height:1.35;color:var(--rust);">
+         <strong>⚠ Bottleneck</strong><br>
+         <strong>${bottleneckNames.join(', ')}</strong> bottlenecks flow.
+       </div>`;
+
+  insightHtml += summaryText;
+  if (insightPanel) insightPanel.innerHTML = insightHtml;
+}
+
+availSlider.addEventListener('input', e=>{ availableMin = +e.target.value; render(); });
+demandSlider.addEventListener('input', e=>{ demandUnits = +e.target.value; render(); });
+
+const orderProcSlider = document.getElementById('orderProcSlider');
+const shippingSlider = document.getElementById('shippingSlider');
+const orderProcReadout = document.getElementById('orderProcReadout');
+const shippingReadout = document.getElementById('shippingReadout');
+
+if (orderProcSlider) {
+  orderProcSlider.addEventListener('input', e => {
+    orderProcessing = +e.target.value;
+    orderProcReadout.textContent = orderProcessing.toFixed(1);
+    render();
+  });
+}
+if (shippingSlider) {
+  shippingSlider.addEventListener('input', e => {
+    shipping = +e.target.value;
+    shippingReadout.textContent = shipping.toFixed(1);
+    render();
+  });
+}
+
+function drawFlow(leadTotal){
+  const segs = [];
+  segs.push({label:'Order Processing', dur:orderProcessing, type:'logistics'});
+  stations.forEach((st,i)=>{
+    segs.push({label:st.name, dur:st.cycle, type:'process'});
+    if(i < queues.length) segs.push({label:'Queue', dur:queues[i], type:'queue'});
+  });
+  segs.push({label:'Outbound Shipping', dur:shipping, type:'logistics'});
+
+  // Update total lead time display inside timeline card header
+  const timelineTotalTime = document.getElementById('timelineTotalTime');
+  if (timelineTotalTime) {
+    timelineTotalTime.textContent = leadTotal.toFixed(2);
+  }
+
+  flowBar.innerHTML = segs.map(s=>{
+    const pct = (s.dur/leadTotal*100).toFixed(2);
+    const isMobile = window.innerWidth < 700;
+    // Shorter labels for mobile to fit in narrow segments
+    let displayName = s.label;
+    if (isMobile) {
+      if (s.label === 'Order Processing') displayName = 'Ord';
+      else if (s.label === 'Outbound Shipping') displayName = 'Ship';
+      else if (s.label === 'Queue') displayName = 'Q';
+      else displayName = s.label.split(' ')[0].substring(0, 5);
+    } else {
+      if (s.label === 'Order Processing') displayName = 'Order Proc';
+      if (s.label === 'Outbound Shipping') displayName = 'Shipping';
+      if (s.label === 'Queue') displayName = 'Q';
+    }
+
+    // On mobile raise threshold — only show text if segment is wide enough
+    const textThreshold = isMobile ? 14 : 4;
+    const textToShow = pct > textThreshold ? `
+      <span style="font-size: ${isMobile?'9':'9'}px; font-weight: 700; color: #FFF; text-shadow: 0 1px 1px rgba(0,0,0,0.3); text-transform: uppercase; letter-spacing: 0.02em; white-space: nowrap; overflow: hidden; display: block; max-width: 100%;">${displayName}</span>
+      <span style="font-family:'IBM Plex Mono',monospace; font-size: ${isMobile?'8':'8.5'}px; font-weight: 800; color: #FFF; opacity: 0.95; margin-top: 1px; display: block;">${s.dur.toFixed(1)}m</span>
+    ` : '';
+    return `<div class="flow-seg ${s.type}" style="width:${pct}%" title="${s.label}: ${s.dur.toFixed(2)} min">${textToShow}</div>`;
+  }).join('');
+
+  const processTotal = stations.reduce((a,s)=>a+s.cycle,0);
+  const queueTotal = queues.reduce((a,q)=>a+q,0);
+  const mfgLead = processTotal + queueTotal;
+
+  // On mobile, collapse to 3 key milestones to prevent crowding
+  const isMobile = window.innerWidth < 700;
+  const msData = isMobile ? [
+    { name: 'Order', time: 0, w: 25 },
+    { name: 'Built', time: orderProcessing + mfgLead, w: 45 },
+    { name: 'Delivered', time: leadTotal, w: 30 }
+  ] : [
+    { name: 'Order Placed', time: 0, w: 8 },
+    { name: 'Plant Gate', time: orderProcessing, w: 8 },
+    { name: 'Line Start', time: orderProcessing, w: 20 },
+    { name: 'Vehicle Complete', time: orderProcessing + mfgLead, w: 20 },
+    { name: 'Shipped', time: orderProcessing + mfgLead, w: 22 },
+    { name: 'Delivered', time: leadTotal, w: 22 }
+  ];
+
+  flowMilestones.innerHTML = msData.map((ms) => {
+    return `<div class="flow-ms" style="width:${ms.w}%">${ms.name}<br><span style="font-family:'IBM Plex Mono',monospace; font-size:${isMobile?'9':'8'}px; font-weight:700; opacity:0.85; display:block; margin-top:1px; color:var(--text);">${ms.time.toFixed(1)}m</span></div>`;
+  }).join('');
+
+  const dur = Math.max(4, Math.min(10, (leadTotal * 60)/90));
+  flowCar.style.animationDuration = dur + 's';
+}
+
+const svg = document.getElementById('pulseSvg');
+function buildWave(){
+  const w = 1000, h = 100, mid = h/2;
+  const beats = 5, spacing = w/beats;
+  let d = `M0 ${mid}`;
+  for(let b=0;b<beats;b++){
+    const x0 = b*spacing;
+    d += ` L${x0+spacing*0.15} ${mid}`;
+    d += ` L${x0+spacing*0.22} ${mid-6}`;
+    d += ` L${x0+spacing*0.28} ${mid+30}`;
+    d += ` L${x0+spacing*0.34} ${mid-36}`;
+    d += ` L${x0+spacing*0.40} ${mid}`;
+    d += ` L${x0+spacing} ${mid}`;
+  }
+  return d;
+}
+function carIcon(x,y){
+  return `<g transform="translate(${x-14},${y-16})" class="pulse-car">
+    <path d="M2 12 L4 6 Q6 3 11 3 L17 3 Q22 3 24 6 L26 12 L26 16 L2 16 Z"/>
+    <circle cx="7" cy="16" r="3" fill="#F4F1E9" stroke="currentColor" stroke-width="1.4"/>
+    <circle cx="21" cy="16" r="3" fill="#F4F1E9" stroke="currentColor" stroke-width="1.4"/>
+  </g>`;
+}
+function drawPulse(takt){
+  svg.innerHTML = '';
+  for(let i=1;i<8;i++){
+    const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1', i*125); line.setAttribute('x2', i*125);
+    line.setAttribute('y1', 0); line.setAttribute('y2', 100);
+    line.setAttribute('class','pulse-grid');
+    svg.appendChild(line);
+  }
+  const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+  path.setAttribute('d', buildWave());
+  path.setAttribute('class','pulse-line');
+  const dashLen = 3000;
+  path.style.strokeDasharray = dashLen;
+  path.style.strokeDashoffset = dashLen;
+  const dur = Math.max(1.2, Math.min(6, (takt * 60)/12));
+  path.style.animation = `pulseTravel ${dur}s linear infinite`;
+  svg.appendChild(path);
+
+  const beats = 5, spacing = 1000/beats, mid=50;
+  const carsGroup = document.createElementNS('http://www.w3.org/2000/svg','g');
+  carsGroup.innerHTML = Array.from({length:beats}).map((_,b)=>{
+    const x = b*spacing + spacing*0.9;
+    return carIcon(x, mid+2);
+  }).join('');
+  svg.appendChild(carsGroup);
+
+  if(!document.getElementById('pulseKeyframes')){
+    const style = document.createElement('style');
+    style.id = 'pulseKeyframes';
+    style.textContent = `@keyframes pulseTravel { from { stroke-dashoffset: ${dashLen}; } to { stroke-dashoffset: 0; } }`;
+    document.head.appendChild(style);
+  } else {
+    document.getElementById('pulseKeyframes').textContent = `@keyframes pulseTravel { from { stroke-dashoffset: ${dashLen}; } to { stroke-dashoffset: 0; } }`;
+  }
+}
+
+// ==================== TAB 2: INTRODUCTION LOGIC ====================
+let cvpData = {
+  price: 100,
+  varCost: 40,
+  volume: 1000,
+  fixedCost: 30000
+};
+let currentProfit = (cvpData.price - cvpData.varCost) * cvpData.volume - cvpData.fixedCost;
+
+const cvpPrice = document.getElementById('cvpPrice');
+const cvpVarCost = document.getElementById('cvpVarCost');
+const cvpVolume = document.getElementById('cvpVolume');
+const cvpFixedCost = document.getElementById('cvpFixedCost');
+
+function updateCVP() {
+  const price = +cvpPrice.value;
+  const varCost = +cvpVarCost.value;
+  const volume = +cvpVolume.value;
+  const fixedCost = +cvpFixedCost.value;
+
+  document.getElementById('cvpPriceVal').textContent = '$' + price;
+  document.getElementById('cvpVarCostVal').textContent = '$' + varCost;
+  document.getElementById('cvpVolumeVal').textContent = volume.toLocaleString();
+  document.getElementById('cvpFixedCostVal').textContent = '$' + fixedCost.toLocaleString();
+
+  const targetProfit = (price - varCost) * volume - fixedCost;
+  const profitEl = document.getElementById('cvpProfitDisplay');
+  const profitNodeEl = document.getElementById('cvpProfitNodeDisplay');
+
+  animateCVPProfit(profitEl, currentProfit, targetProfit, 400);
+  animateCVPProfit(profitNodeEl, currentProfit, targetProfit, 400);
+  
+  // Calculate percentage change from initial settings profit ($30,000)
+  const initialProfit = 30000;
+  const pctEl = document.getElementById('cvpPctDisplay');
+  if (pctEl) {
+    const pct = ((targetProfit - initialProfit) / initialProfit) * 100;
+    let pctText = '0% change';
+    if (pct > 0) {
+      pctText = '+' + pct.toFixed(1) + '% change';
+      pctEl.style.color = 'var(--green)';
+      pctEl.style.borderColor = 'rgba(61,122,82,0.3)';
+      pctEl.style.background = 'rgba(61,122,82,0.08)';
+    } else if (pct < 0) {
+      pctText = pct.toFixed(1) + '% change';
+      pctEl.style.color = 'var(--rust)';
+      pctEl.style.borderColor = 'rgba(187,59,46,0.3)';
+      pctEl.style.background = 'rgba(187,59,46,0.08)';
+    } else {
+      pctEl.style.color = 'var(--text-dim)';
+      pctEl.style.borderColor = 'var(--line)';
+      pctEl.style.background = 'var(--bg-panel-2)';
+    }
+    pctEl.textContent = pctText;
+  }
+  
+  currentProfit = targetProfit;
+}
+
+function animateCVPProfit(el, start, end, duration) {
+  const startTime = performance.now();
+  function update(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const ease = progress * (2 - progress);
+    const val = Math.round(start + (end - start) * ease);
+    
+    el.textContent = (val >= 0 ? '$' : '-$') + Math.abs(val).toLocaleString();
+    el.className = 'mono ' + (val >= 0 ? 'positive' : 'negative');
+    
+    if (progress < 1) {
+      requestAnimationFrame(update);
+    }
+  }
+  requestAnimationFrame(update);
+}
+
+cvpPrice.addEventListener('input', updateCVP);
+cvpVarCost.addEventListener('input', updateCVP);
+cvpVolume.addEventListener('input', updateCVP);
+cvpFixedCost.addEventListener('input', updateCVP);
+
+const cvpResetBtn = document.getElementById('cvpResetBtn');
+if (cvpResetBtn) {
+  cvpResetBtn.addEventListener('click', () => {
+    cvpPrice.value = 100;
+    cvpVarCost.value = 40;
+    cvpVolume.value = 1000;
+    cvpFixedCost.value = 30000;
+    updateCVP();
+  });
+}
+
+// ==================== TAB 3: PRODUCTION SYSTEMS LOGIC ====================
+const matrixZones = {
+  1: {
+    name: 'Project',
+    desc: 'One-of-a-kind production process where resources are brought to the site. Fixed layout, high cost per unit, maximum flexibility.',
+    example: 'Construction of a skyscraper, shipbuilding, or movie production.',
+    x: 100, y: 100
+  },
+  2: {
+    name: 'Job Shop',
+    desc: 'Low-volume, high-variety custom work. General purpose machinery grouped by function (functional layout). Highly skilled labor.',
+    example: 'Custom machine shops, commercial print shops, or bespoke furniture making.',
+    x: 200, y: 165
+  },
+  3: {
+    name: 'Batch Production',
+    desc: 'Moderate volume of similar products processed in lots. Work flows through disconnected, grouped stations. Mix of general-purpose and specialized machines.',
+    example: 'Commercial bakeries, pharmaceutical manufacturing, or apparel production.',
+    x: 300, y: 230
+  },
+  4: {
+    name: 'Mass Production',
+    desc: 'High-volume, low-variety standardized products. Product layout with sequential assembly line. Specialized machinery, semi-skilled labor.',
+    example: 'Automobile assembly lines, television manufacturing, or home appliances.',
+    x: 400, y: 295
+  },
+  5: {
+    name: 'Continuous Production',
+    desc: 'Extremely high-volume, highly standardized commodity fluids or materials. 24/7 automated process. Inflexible specialized equipment.',
+    example: 'Oil refineries, chemical plants, steel mills, or beer breweries.',
+    x: 500, y: 360
+  }
+};
+
+const matrixSlider = document.getElementById('matrixSlider');
+
+function updateMatrix(val) {
+  const zone = matrixZones[val];
+  document.getElementById('matrixDetailName').textContent = zone.name.toUpperCase();
+  document.getElementById('matrixDetailDesc').textContent = zone.desc;
+
+  const zoneImages = {
+    1: 'matrix_project_uploaded.png',
+    2: 'matrix_job_uploaded.png',
+    3: 'matrix_batch_uploaded.png',
+    4: 'matrix_mass_uploaded.png',
+    5: 'matrix_continuous_uploaded.png'
+  };
+  const detailImg = document.getElementById('matrixDetailImage');
+  if (detailImg) {
+    detailImg.src = zoneImages[val];
+  }
+
+  for (let i = 1; i <= 5; i++) {
+    const bubble = document.getElementById('mb-' + i);
+    if (bubble) {
+      if (i === parseInt(val)) {
+        bubble.classList.add('active');
+      } else {
+        bubble.classList.remove('active');
+      }
+    }
+  }
+
+  const tracker = document.getElementById('matrixTrackerCircle');
+  if (tracker) {
+    tracker.setAttribute('cx', zone.x);
+    tracker.setAttribute('cy', zone.y);
+  }
+  
+  matrixSlider.value = val;
+}
+
+matrixSlider.addEventListener('input', e => {
+  updateMatrix(e.target.value);
+});
+
+for (let i = 1; i <= 5; i++) {
+  const bubble = document.getElementById('mb-' + i);
+  if (bubble) {
+    bubble.addEventListener('click', () => {
+      updateMatrix(i);
+    });
+    bubble.addEventListener('mouseover', () => {
+      updateMatrix(i);
+    });
+  }
+}
+
+// ==================== TAB 4: COMPARISON LOGIC ====================
+const comparisonSlider = document.getElementById('comparisonSlider');
+
+function updateComparison(val) {
+  const profiles = {
+    1: 'JOB PRODUCTION',
+    2: 'BATCH PRODUCTION',
+    3: 'MASS PRODUCTION'
+  };
+  
+  document.getElementById('compMatchStatus').textContent = 'ACTIVE PROFILE: ' + profiles[val];
+  
+  for (let i = 1; i <= 3; i++) {
+    const card = document.getElementById('cc-' + i);
+    if (card) {
+      if (i === parseInt(val)) {
+        card.classList.add('active');
+        card.classList.remove('inactive');
+      } else {
+        card.classList.remove('active');
+        card.classList.add('inactive');
+      }
+    }
+  }
+  
+  comparisonSlider.value = val;
+}
+
+comparisonSlider.addEventListener('input', e => {
+  updateComparison(e.target.value);
+});
+
+for (let i = 1; i <= 3; i++) {
+  const card = document.getElementById('cc-' + i);
+  if (card) {
+    card.addEventListener('click', () => {
+      updateComparison(i);
+    });
+    card.addEventListener('mouseover', () => {
+      updateComparison(i);
+    });
+  }
+}
+
+// ==================== INTERSECTION OBSERVER FOR REVEAL ====================
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in-view'); } });
+}, {threshold:0.12});
+
+document.querySelectorAll('.reveal, .reveal-stagger').forEach(el=>io.observe(el));
+
+// ==================== TAB 5: INVENTORY MANAGEMENT LOGIC ====================
+const coffeePreset = {
+  D: { val: 24000, min: 1000, max: 100000, step: 1000 },
+  S: { val: 800, min: 100, max: 5000, step: 50 },
+  H: { val: 350, min: 50, max: 1000, step: 10 },
+  Q: { min: 50, max: 2000, step: 10 },
+  note: "Coffee has short shelf life and quality decay, so holding costs are relatively high — favors smaller, more frequent orders."
+};
+
+const beerPreset = {
+  D: { val: 60000, min: 5000, max: 200000, step: 5000 },
+  S: { val: 3000, min: 500, max: 10000, step: 100 },
+  H: { val: 120, min: 20, max: 500, step: 10 },
+  Q: { min: 100, max: 8000, step: 50 },
+  note: "Beer has more stable shelf life and benefits from bulk logistics, so ordering costs dominate — favors larger, less frequent orders."
+};
+
+function applyPreset(presetName) {
+  const preset = presetName === 'coffee' ? coffeePreset : beerPreset;
+  
+  const coffeeBtn = document.getElementById('eoqPresetCoffee');
+  const beerBtn = document.getElementById('eoqPresetBeer');
+  if (presetName === 'coffee') {
+    coffeeBtn.classList.add('active');
+    coffeeBtn.style.borderColor = 'var(--orange)';
+    coffeeBtn.style.color = 'var(--orange)';
+    coffeeBtn.style.background = 'rgba(226,87,28,0.06)';
+    
+    beerBtn.classList.remove('active');
+    beerBtn.style.borderColor = 'var(--line-strong)';
+    beerBtn.style.color = 'var(--text-dim)';
+    beerBtn.style.background = 'none';
+  } else {
+    beerBtn.classList.add('active');
+    beerBtn.style.borderColor = 'var(--orange)';
+    beerBtn.style.color = 'var(--orange)';
+    beerBtn.style.background = 'rgba(226,87,28,0.06)';
+    
+    coffeeBtn.classList.remove('active');
+    coffeeBtn.style.borderColor = 'var(--line-strong)';
+    coffeeBtn.style.color = 'var(--text-dim)';
+    coffeeBtn.style.background = 'none';
+  }
+  
+  document.getElementById('eoqContextNote').textContent = preset.note;
+  
+  const sliderD = document.getElementById('eoqDemand');
+  sliderD.min = preset.D.min;
+  sliderD.max = preset.D.max;
+  sliderD.step = preset.D.step;
+  sliderD.value = preset.D.val;
+
+  const sliderS = document.getElementById('eoqOrderCost');
+  sliderS.min = preset.S.min;
+  sliderS.max = preset.S.max;
+  sliderS.step = preset.S.step;
+  sliderS.value = preset.S.val;
+
+  const sliderH = document.getElementById('eoqHoldingCost');
+  sliderH.min = preset.H.min;
+  sliderH.max = preset.H.max;
+  sliderH.step = preset.H.step;
+  sliderH.value = preset.H.val;
+
+  const sliderQ = document.getElementById('eoqQty');
+  sliderQ.min = preset.Q.min;
+  sliderQ.max = preset.Q.max;
+  sliderQ.step = preset.Q.step;
+
+  const defaultEOQ = Math.round(Math.sqrt((2 * preset.D.val * preset.S.val) / preset.H.val));
+  sliderQ.value = defaultEOQ;
+
+  updateEOQ();
+}
+
+function updateEOQ() {
+  const D = +document.getElementById('eoqDemand').value;
+  const S = +document.getElementById('eoqOrderCost').value;
+  const H = +document.getElementById('eoqHoldingCost').value;
+  
+  let Q = +document.getElementById('eoqQty').value;
+  const eoqVal = Math.round(Math.sqrt((2 * D * S) / H));
+  
+  document.getElementById('eoqDemandReadout').textContent = D.toLocaleString();
+  document.getElementById('eoqOrderCostReadout').textContent = S.toLocaleString();
+  document.getElementById('eoqHoldingCostReadout').textContent = H.toLocaleString();
+  document.getElementById('eoqQtyReadout').textContent = Q.toLocaleString();
+  
+  document.getElementById('eoqCalcDisplay').textContent = eoqVal.toLocaleString();
+  
+  const holdingCost = (Q / 2) * H;
+  const orderingCost = (D / Q) * S;
+  const totalCost = holdingCost + orderingCost;
+  
+  document.getElementById('eoqCostDisplay').textContent = Math.round(totalCost).toLocaleString();
+  
+  drawEOQChart(D, S, H, Q, eoqVal);
+}
+
+function drawEOQChart(D, S, H, Q, eoq) {
+  const svg = document.getElementById('eoqChart');
+  if (!svg) return;
+  svg.innerHTML = '';
+
+  const w = 380, h = 260;
+  const paddingLeft = 52;
+  const paddingRight = 15;
+  const paddingTop = 15;
+  const paddingBottom = 32;
+  const graphWidth = w - paddingLeft - paddingRight;
+  const graphHeight = h - paddingTop - paddingBottom;
+
+  const qMin = +document.getElementById('eoqQty').min;
+  const qMax = +document.getElementById('eoqQty').max;
+
+  const numPoints = 40;
+  const points = [];
+  let maxCost = 0;
+
+  for (let i = 0; i <= numPoints; i++) {
+    const qVal = qMin + (i / numPoints) * (qMax - qMin);
+    const holdCost = (qVal / 2) * H;
+    const orderCost = (D / qVal) * S;
+    const totCost = holdCost + orderCost;
+    points.push({ qVal, holdCost, orderCost, totCost });
+    
+    if (totCost > maxCost && qVal >= qMin) {
+      const eoqCost = Math.sqrt(2 * D * S * H);
+      if (totCost < eoqCost * 4) {
+        maxCost = totCost;
+      }
+    }
+  }
+
+  const eoqCost = Math.sqrt(2 * D * S * H);
+  if (maxCost === 0) maxCost = eoqCost * 2.5;
+
+  const getX = (qVal) => paddingLeft + ((qVal - qMin) / (qMax - qMin)) * graphWidth;
+  const getY = (costVal) => {
+    const yRatio = costVal / maxCost;
+    const yVal = h - paddingBottom - yRatio * graphHeight;
+    return Math.max(paddingTop, Math.min(h - paddingBottom, yVal));
+  };
+
+  const xAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+  xAxis.setAttribute('x1', paddingLeft);
+  xAxis.setAttribute('x2', w - paddingRight);
+  xAxis.setAttribute('y1', h - paddingBottom);
+  xAxis.setAttribute('y2', h - paddingBottom);
+  xAxis.setAttribute('stroke', 'var(--line-strong)');
+  xAxis.setAttribute('stroke-width', '1.5');
+  svg.appendChild(xAxis);
+
+  const yAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+  yAxis.setAttribute('x1', paddingLeft);
+  yAxis.setAttribute('x2', paddingLeft);
+  yAxis.setAttribute('y1', paddingTop);
+  yAxis.setAttribute('y2', h - paddingBottom);
+  yAxis.setAttribute('stroke', 'var(--line-strong)');
+  yAxis.setAttribute('stroke-width', '1.5');
+  svg.appendChild(yAxis);
+
+  let holdPoints = '';
+  let orderPoints = '';
+  let totalPoints = '';
+
+  points.forEach(pt => {
+    holdPoints += `${getX(pt.qVal)},${getY(pt.holdCost)} `;
+    orderPoints += `${getX(pt.qVal)},${getY(pt.orderCost)} `;
+    totalPoints += `${getX(pt.qVal)},${getY(pt.totCost)} `;
+  });
+
+  const drawPolyline = (pts, color, width, dash = '') => {
+    const poly = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+    poly.setAttribute('points', pts.trim());
+    poly.setAttribute('fill', 'none');
+    poly.setAttribute('stroke', color);
+    poly.setAttribute('stroke-width', width);
+    if (dash) poly.setAttribute('stroke-dasharray', dash);
+    svg.appendChild(poly);
+  };
+
+  drawPolyline(holdPoints, 'var(--green)', '1.5', '3,3');
+  drawPolyline(orderPoints, 'var(--blueprint)', '1.5', '3,3');
+  drawPolyline(totalPoints, 'var(--orange)', '2.5');
+
+  const qX = getX(Q);
+  const qLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+  qLine.setAttribute('x1', qX);
+  qLine.setAttribute('x2', qX);
+  qLine.setAttribute('y1', paddingTop);
+  qLine.setAttribute('y2', h - paddingBottom);
+  qLine.setAttribute('stroke', 'var(--text-dim)');
+  qLine.setAttribute('stroke-dasharray', '2,2');
+  svg.appendChild(qLine);
+
+  const currentHold = (Q / 2) * H;
+  const currentOrder = (D / Q) * S;
+  const currentTotal = currentHold + currentOrder;
+
+  const qDot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  qDot.setAttribute('cx', qX);
+  qDot.setAttribute('cy', getY(currentTotal));
+  qDot.setAttribute('r', '5');
+  qDot.setAttribute('fill', 'var(--text)');
+  qDot.setAttribute('stroke', 'var(--orange)');
+  qDot.setAttribute('stroke-width', '2');
+  svg.appendChild(qDot);
+
+  const eoqX = getX(eoq);
+  const eoqDot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  eoqDot.setAttribute('cx', eoqX);
+  eoqDot.setAttribute('cy', getY(Math.sqrt(2 * D * S * H)));
+  eoqDot.setAttribute('r', '4');
+  eoqDot.setAttribute('fill', 'var(--orange)');
+  svg.appendChild(eoqDot);
+
+  const yLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  yLabel.setAttribute('x', paddingLeft - 8);
+  yLabel.setAttribute('y', paddingTop - 5);
+  yLabel.setAttribute('font-size', '9');
+  yLabel.setAttribute('font-family', 'IBM Plex Mono, monospace');
+  yLabel.setAttribute('fill', 'var(--text-faint)');
+  yLabel.setAttribute('text-anchor', 'end');
+  yLabel.textContent = 'Cost (₹)';
+  svg.appendChild(yLabel);
+
+  const xLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  xLabel.setAttribute('x', w - paddingRight);
+  xLabel.setAttribute('y', h - paddingBottom + 18);
+  xLabel.setAttribute('font-size', '9');
+  xLabel.setAttribute('font-family', 'IBM Plex Mono, monospace');
+  xLabel.setAttribute('fill', 'var(--text-faint)');
+  xLabel.setAttribute('text-anchor', 'end');
+  xLabel.textContent = 'Order Qty (Q)';
+  svg.appendChild(xLabel);
+
+  const ticksY = [0, maxCost * 0.5, maxCost];
+  ticksY.forEach(val => {
+    const yVal = getY(val);
+    const tickText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    tickText.setAttribute('x', paddingLeft - 8);
+    tickText.setAttribute('y', yVal + 3);
+    tickText.setAttribute('font-size', '8');
+    tickText.setAttribute('font-family', 'IBM Plex Mono, monospace');
+    tickText.setAttribute('fill', 'var(--text-dim)');
+    tickText.setAttribute('text-anchor', 'end');
+    tickText.textContent = '₹' + Math.round(val).toLocaleString();
+    svg.appendChild(tickText);
+  });
+
+  const ticksX = [qMin, Q, qMax];
+  ticksX.forEach(val => {
+    const xVal = getX(val);
+    const tickText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    tickText.setAttribute('x', xVal);
+    tickText.setAttribute('y', h - paddingBottom + 10);
+    tickText.setAttribute('font-size', '8');
+    tickText.setAttribute('font-family', 'IBM Plex Mono, monospace');
+    tickText.setAttribute('fill', val === Q ? 'var(--orange)' : 'var(--text-dim)');
+    tickText.setAttribute('text-anchor', 'middle');
+    tickText.textContent = Math.round(val).toLocaleString();
+    svg.appendChild(tickText);
+  });
+
+  const drawLegendItem = (x, y, label, color, dashed = false) => {
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', x);
+    line.setAttribute('x2', x + 15);
+    line.setAttribute('y1', y);
+    line.setAttribute('y2', y);
+    line.setAttribute('stroke', color);
+    line.setAttribute('stroke-width', '2');
+    if (dashed) line.setAttribute('stroke-dasharray', '2,2');
+    svg.appendChild(line);
+
+    const txt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    txt.setAttribute('x', x + 20);
+    txt.setAttribute('y', y + 3);
+    txt.setAttribute('font-size', '8.5');
+    txt.setAttribute('font-family', 'IBM Plex Sans, sans-serif');
+    txt.setAttribute('fill', 'var(--text-dim)');
+    svg.appendChild(txt);
+    txt.textContent = label;
+  };
+
+  drawLegendItem(w - 120, paddingTop + 5, 'Total Cost', 'var(--orange)');
+  drawLegendItem(w - 120, paddingTop + 18, 'Holding Cost', 'var(--green)', true);
+  drawLegendItem(w - 120, paddingTop + 31, 'Ordering Cost', 'var(--blueprint)', true);
+}
+
+// Event Listeners for EOQ
+document.getElementById('eoqPresetCoffee').addEventListener('click', () => applyPreset('coffee'));
+document.getElementById('eoqPresetBeer').addEventListener('click', () => applyPreset('beer'));
+
+document.getElementById('eoqDemand').addEventListener('input', updateEOQ);
+document.getElementById('eoqOrderCost').addEventListener('input', updateEOQ);
+document.getElementById('eoqHoldingCost').addEventListener('input', updateEOQ);
+document.getElementById('eoqQty').addEventListener('input', updateEOQ);
+
+document.getElementById('eoqResetQBtn').addEventListener('click', () => {
+  const D = +document.getElementById('eoqDemand').value;
+  const S = +document.getElementById('eoqOrderCost').value;
+  const H = +document.getElementById('eoqHoldingCost').value;
+  const eoqVal = Math.round(Math.sqrt((2 * D * S) / H));
+  
+  const sliderQ = document.getElementById('eoqQty');
+  sliderQ.value = Math.max(sliderQ.min, Math.min(sliderQ.max, eoqVal));
+  updateEOQ();
+});
+
+render();
+updateCVP();
+updateMatrix(3);
+updateComparison(2);
+applyPreset('coffee');
+</script>
+</body>
+</html>
+

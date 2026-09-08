@@ -1,9 +1,9 @@
 {
   "subjects": [
+    { "id": "ops", "name": "Operations", "levels": [] },
     { "id": "macro", "name": "Macroeconomics", "levels": ["l1-0-foundations"] },
     { "id": "corp-fin", "name": "Corporate Finance", "levels": [] },
-    { "id": "micro", "name": "Microeconomics", "levels": [] },
-    { "id": "ops", "name": "Operations", "levels": [] },
+    { "id": "marketing", "name": "Marketing", "levels": [] },
     { "id": "strategy", "name": "Strategy", "levels": [] }
   ]
 }

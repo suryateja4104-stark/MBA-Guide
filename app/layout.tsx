@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Study Guide — Macroeconomics Study Guide & Policy Simulator",
+  title: "MBA Executive Curriculum — Domain Portals & Interactive Simulation Workbenches",
   description:
-    "An executive, scenario-based macroeconomic study guide and policy simulation workbench for MBA core curriculum based on Dornbusch, Fischer, Startz and RBI policy frameworks.",
+    "Executive MBA study guides, domain session sandboxes, and policy simulation workbenches across Operations, Finance, Economics, Marketing, and Strategy.",
 };
 
 export default function RootLayout({
