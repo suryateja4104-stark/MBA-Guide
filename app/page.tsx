@@ -334,10 +334,18 @@ export default function MBAHubHomePage() {
 
             <Link
               href="/economics/"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider bg-[#2E5C8A] text-white hover:bg-[#23486d] transition shadow-xs mono"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider bg-[#3D7A52] text-white hover:bg-[#2d5c3d] transition shadow-xs mono"
             >
               <TrendingUp className="w-3.5 h-3.5" />
               <span>Macro Guide</span>
+            </Link>
+
+            <Link
+              href="/finance/"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider bg-[#8C6A2E] text-white hover:bg-[#735623] transition shadow-xs mono"
+            >
+              <BarChart3 className="w-3.5 h-3.5" />
+              <span>Finance Guide</span>
             </Link>
           </div>
         </div>
@@ -371,8 +379,8 @@ export default function MBAHubHomePage() {
 
             <div className="dash-card bg-white p-3 border border-[#DCD5C4]">
               <span className="text-[10px] font-bold uppercase text-[#9A927E] block">Active Workbenches</span>
-              <span className="text-2xl font-black mono text-[#3D7A52]">2 Live</span>
-              <span className="text-[11px] text-[#686254] block">Ops Session + Macro Guide</span>
+              <span className="text-2xl font-black mono text-[#3D7A52]">{DOMAINS.filter((d) => d.status === "live").length} Live</span>
+              <span className="text-[11px] text-[#686254] block">Ops + Economics + Finance</span>
             </div>
 
             <div className="dash-card bg-white p-3 border border-[#DCD5C4]">
@@ -400,7 +408,7 @@ export default function MBAHubHomePage() {
                     : "text-[#686254] hover:text-[#211E19]"
                 }`}
               >
-                All Domains (5)
+                All Domains ({DOMAINS.length})
               </button>
               <button
                 onClick={() => setActiveFilter("live")}
@@ -410,7 +418,7 @@ export default function MBAHubHomePage() {
                     : "text-[#686254] hover:text-[#211E19]"
                 }`}
               >
-                Live Platforms (2)
+                Live Platforms ({DOMAINS.filter((d) => d.status === "live").length})
               </button>
               <button
                 onClick={() => setActiveFilter("curated")}
@@ -420,7 +428,7 @@ export default function MBAHubHomePage() {
                     : "text-[#686254] hover:text-[#211E19]"
                 }`}
               >
-                Under Curation (3)
+                Under Curation ({DOMAINS.filter((d) => d.status === "curated").length})
               </button>
             </div>
 
